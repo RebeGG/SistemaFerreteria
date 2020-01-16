@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1250</x>
+      <y>120</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>EmptyPackage
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>30</x>
+      <y>20</y>
+      <w>1000</w>
+      <h>590</h>
+    </coordinates>
+    <panel_attributes>SistemaFerreteria
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>770</x>
+      <y>60</y>
+      <w>240</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>Vista
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>60</x>
+      <y>60</y>
+      <w>240</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>Modelo
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>430</x>
+      <y>220</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Controlador
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>430</x>
+      <y>400</y>
+      <w>220</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>DAO
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>110</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>VentanaPrincipal
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>190</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>VentanaTabla
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>490</x>
+      <y>470</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>GestorBD
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>270</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Controlador
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>100</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Inventario
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>70</x>
+      <y>410</y>
+      <w>220</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Tabla
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>450</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>ModeloColumnas
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>520</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>ModeloTablaInventario
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>780</x>
+      <y>410</y>
+      <w>220</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Tabla
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>450</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>RenderizadorCelda
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>510</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>TablaInventario
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>110</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>SistemaFerreteria
+--
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>160</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Modelo
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

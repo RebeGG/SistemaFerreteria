@@ -42,5 +42,9 @@ public class Material extends Producto {
         this.pesoKg = pesoKg;
     }
     
-    
+    @Override
+    public String toString(){
+        return String.format("%s, %f, %f, %f", getNombre(), getMedida(), getTamano(), getPesoKg());
+    }
+       
 }

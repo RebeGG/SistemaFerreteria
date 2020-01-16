@@ -46,4 +46,8 @@ public class Herramienta extends Producto {
         this.cantidadUnidades = cantidadUnidades;
     }
     
+    @Override
+    public String toString(){
+        return String.format("%s, %f, %d, %d", getNombre(), getMedida(), getCapacidad(), getCantidadUnidades());
+    }
 }

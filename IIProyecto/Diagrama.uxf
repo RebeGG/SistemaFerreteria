@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>8</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1088</x>
-      <y>152</y>
-      <w>112</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>EmptyPackage
---
-bg=orange</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLPackage</id>
-    <coordinates>
-      <x>32</x>
-      <y>24</y>
-      <w>992</w>
-      <h>584</h>
+      <x>7</x>
+      <y>21</y>
+      <w>1029</w>
+      <h>609</h>
     </coordinates>
     <panel_attributes>SistemaFerreteria
 --
@@ -30,10 +17,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>824</x>
-      <y>56</y>
-      <w>192</w>
-      <h>424</h>
+      <x>777</x>
+      <y>49</y>
+      <w>168</w>
+      <h>371</h>
     </coordinates>
     <panel_attributes>Vista
 --
@@ -43,10 +30,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>48</x>
-      <y>56</y>
-      <w>440</w>
-      <h>528</h>
+      <x>14</x>
+      <y>42</y>
+      <w>455</w>
+      <h>581</h>
     </coordinates>
     <panel_attributes>Modelo
 --
@@ -56,10 +43,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>592</x>
-      <y>112</y>
-      <w>152</w>
-      <h>96</h>
+      <x>574</x>
+      <y>98</y>
+      <w>133</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>Controlador
 --
@@ -69,10 +56,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>608</x>
-      <y>248</y>
-      <w>176</w>
-      <h>144</h>
+      <x>525</x>
+      <y>217</y>
+      <w>245</w>
+      <h>273</h>
     </coordinates>
     <panel_attributes>DAO
 --
@@ -82,10 +69,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>864</x>
-      <y>88</y>
-      <w>112</w>
-      <h>32</h>
+      <x>812</x>
+      <y>77</y>
+      <w>98</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>VentanaPrincipal
 --
@@ -95,10 +82,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>872</x>
-      <y>136</y>
-      <w>112</w>
-      <h>32</h>
+      <x>819</x>
+      <y>119</y>
+      <w>98</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>VentanaTabla
 --
@@ -108,48 +95,84 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>320</y>
-      <w>80</w>
-      <h>32</h>
+      <x>532</x>
+      <y>238</y>
+      <w>231</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>GestorBD
 --
---</panel_attributes>
+- instancia = null:static GestorBD
+--
++ GestorBD()
++ obtenerInstancia():static GestorBD
++ obtenerConexion(String,String,String):Connection</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>152</y>
-      <w>96</w>
-      <h>32</h>
+      <x>595</x>
+      <y>133</y>
+      <w>84</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>Controlador
 --
---</panel_attributes>
+- datos:Modelo
+- pd:ProductoDAO
+--
++ Controlador()
++ Controlador(Modelo)
++ getDatos():Modelo
++ setDatos(Modelo):void
++ registrarTabla(Observer):void
++ suprimir(Observer):void
++ cerrarAplicacion():void
++ listarProductos(Producto):void
++ listarHerramientas(String):void
++ listarMateriales(String):void
++ obtenerProducto(Producto):Producto
++ agregarProducto(Producto):boolean
++ eliminarProducto(Producto):boolean
++ actualizarProducto(Producto):boolean
++ agregarProductoFactura(Producto):void
++ eliminarProductoFactura(Producto):void
++ borrarProductosFactura():void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>440</y>
-      <w>88</w>
-      <h>32</h>
+      <x>49</x>
+      <y>364</y>
+      <w>154</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>Inventario
 --
---</panel_attributes>
+- inventario:List&lt;Producto&gt; 
+--
++ Inventario()
++ Inventario(List&lt;Producto&gt;)
++ setInventario(List&lt;Producto&gt;)
++ getInventario():List&lt;Producto&gt;
++ cantidadProductos():int
++ obtener(int):Producto
++ borrar():void
++ agregar(Producto):void
++ eliminar(Producto):void
++ toString():String
++ obtenerModelo():Inventario
++ listar():List&lt;Producto&gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>64</x>
-      <y>440</y>
-      <w>176</w>
+      <x>21</x>
+      <y>504</y>
+      <w>154</w>
       <h>112</h>
     </coordinates>
     <panel_attributes>Tabla
@@ -160,36 +183,52 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>96</x>
-      <y>464</y>
-      <w>104</w>
-      <h>32</h>
+      <x>35</x>
+      <y>532</y>
+      <w>91</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>ModeloColumnas
 --
---</panel_attributes>
+- ENCABEZADO:static final String[]
+- ANCHO_COLUMNA:static final int[]
+--
++ ModeloColumnas()
++ configurar():void
++ getColumnCount():int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>504</y>
-      <w>128</w>
-      <h>32</h>
+      <x>35</x>
+      <y>574</y>
+      <w>112</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>ModeloTablaInventario
 --
---</panel_attributes>
+- inventario:final Inventario
+- CLASE_COLUMNA:static final Class&lt;?&gt;[]
+--
++ ModeloTablaInventario(Inventari)
++ getRowCount():int
++ getColumnCount():int
++ getValueAt(int,int):Object
++ setValueAt(Object,int,int):void
++ isCellEditable(int,int):boolean
++ getColumnClass(int):Class&lt;?&gt;
++ actualizar():void
++ </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>832</x>
-      <y>320</y>
-      <w>176</w>
-      <h>136</h>
+      <x>784</x>
+      <y>280</y>
+      <w>154</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>Tabla
 --
@@ -199,10 +238,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>848</x>
-      <y>368</y>
-      <w>104</w>
-      <h>32</h>
+      <x>798</x>
+      <y>322</y>
+      <w>91</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>RenderizadorCelda
 --
@@ -212,10 +251,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>848</x>
-      <y>408</y>
-      <w>104</w>
-      <h>32</h>
+      <x>798</x>
+      <y>357</y>
+      <w>91</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>TablaInventario
 --
@@ -225,10 +264,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>648</x>
-      <y>56</y>
-      <w>104</w>
-      <h>32</h>
+      <x>623</x>
+      <y>49</y>
+      <w>91</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>SistemaFerreteria
 --
@@ -239,44 +278,62 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>520</y>
-      <w>88</w>
-      <h>32</h>
+      <x>364</x>
+      <y>511</y>
+      <w>77</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>Modelo
 --
---</panel_attributes>
+- inventario:Inventario
+- factura:Factura
+- producto:Producto
+--
++ Modelo()
++ getInventario():Inventario
++ setInventario(List&lt;Producto&gt;):void
++ getFactura():Factura
++ setFactura(Factura):void
++ getProducto():Producto
++ setProducto(Producto):void
++ obtenerModeloTabla():Inventario
++ agregarProductoFactura(Producto):void
++ eliminarProductoFactura(Producto):void
++ borrarProductosFactura():void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>80</y>
-      <w>176</w>
-      <h>128</h>
+      <x>168</x>
+      <y>84</y>
+      <w>126</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>Producto
 --
+- codigo:String
 - nombre:String
-- medida:double
+- medida:String
 --
 + Producto()
-+ Producto(String,double)
++ Producto(String,String,String)
++ getCodigo():String
++ setCodigo(String):void
 + getNombre():String
 + setNombre(String):void
-+ getMedida():double
-+ setMedida(double):void</panel_attributes>
++ getMedida():String
++ setMedida(String):void
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>56</x>
-      <y>248</y>
-      <w>184</w>
-      <h>144</h>
+      <x>49</x>
+      <y>231</y>
+      <w>161</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>Herramienta
 --
@@ -284,21 +341,22 @@ bg=none</panel_attributes>
 - cantidadUnidades:int
 --
 + Herramienta()
-+ Herramienta(String,double,int,int)
++ Herramienta(String, String, String, int, int)
 + getCapacidad():int
 + setcapacidad(int):void
 + getCantidadUnidades():int
 + setCantidadUnidades(int):void
-+ toString():String</panel_attributes>
++ toString():String
++ toArray():Object[] </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>256</x>
-      <y>248</y>
-      <w>208</w>
-      <h>144</h>
+      <x>245</x>
+      <y>231</y>
+      <w>182</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>Material
 --
@@ -306,32 +364,33 @@ bg=none</panel_attributes>
 - pesoKg:double
 --
 + Material()
-+ Material(String,double,double,double)
++ Material(String, String, String, double, double)
 + getTamano():double
 + setcapacidad(double):void
 + getPesoKg():double
 + setPesoKg(double):void
-+ toString():String</panel_attributes>
++ toString():String
++ toArray():Object[]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>240</x>
-      <y>200</y>
-      <w>24</w>
-      <h>40</h>
+      <x>224</x>
+      <y>189</y>
+      <w>21</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>176</x>
-      <y>216</y>
-      <w>152</w>
-      <h>24</h>
+      <x>175</x>
+      <y>210</y>
+      <w>133</w>
+      <h>21</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
@@ -339,10 +398,10 @@ bg=none</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
-      <y>216</y>
-      <w>80</w>
-      <h>24</h>
+      <x>126</x>
+      <y>210</y>
+      <w>70</w>
+      <h>21</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -350,10 +409,10 @@ bg=none</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>304</x>
-      <y>216</y>
-      <w>80</w>
-      <h>24</h>
+      <x>287</x>
+      <y>210</y>
+      <w>70</w>
+      <h>21</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -361,23 +420,102 @@ bg=none</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
-      <y>216</y>
-      <w>24</w>
-      <h>48</h>
+      <x>336</x>
+      <y>210</y>
+      <w>21</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
-      <y>216</y>
-      <w>24</w>
-      <h>48</h>
+      <x>126</x>
+      <y>210</y>
+      <w>21</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>21</x>
+      <y>63</y>
+      <w>441</w>
+      <h>406</h>
+    </coordinates>
+    <panel_attributes>Entidades
+--
+bg=none</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>273</x>
+      <y>371</y>
+      <w>140</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>Factura
+--
+- nombre:String
+- fecha:Date 
+- producto:List&lt;Producto&gt;
+- total:double 
+--
++ Factura(String, Date)
++ Factura()
++ getNombre():String
++ setNombre(String):void
++ getFecha():Date
++ setFecha(Date):void
++ getProductos():List&lt;Producto&gt; 
++ setProductos(List&lt;Producto&gt;):void
++ getTotal():double
++ setTotal(double):void
++ agregarProducto(Producto):void
++ eliminarProducto(Producto):void
++ borrarProductos():void
++ toString()String </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>532</x>
+      <y>315</y>
+      <w>217</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>ProductoDAO
+--
+- instancia = null:static ProductoDAO
+- cfg:Properties
+- baseDatos:String
+- usuario:String
+- clave:String
+- CMD_LISTAR_HERRAMIENTA = "SELECT codigo, nombre, medida, capacidad, cantidadUnidades FROM producto;":static final String
+- CMD_LISTAR_MATERIAL = "SELECT codigo, nombre, medida, tamano, pesoKg FROM producto;":static final String
+- CMD_AGREGAR_HERRAMIENTA = "INSERT INTO persona (codigo, nombre, medida, capacidad, cantidadUnidades) " + "VALUES (?, ?, ?, ?, ?);":static final String
+- CMD_AGREGAR_MATERIAL = "INSERT INTO persona (codigo, nombre, medida, tamano, pesoKg) " + "VALUES (?, ?, ?, ?, ?);":static final String 
+--
++ ProductoDAO()
++ agregar(Producto):boolean
++ listar():List&lt;Producto&gt;
++ listar(Producto):List&lt;Producto&gt;
++ listarHerramienta(String):List&lt;Producto&gt;
++ listarMaterial(String): List&lt;Producto&gt;
++ recuperar(String):Producto
++ actualizar(Producto):boolean
++ eliminar(String):boolean 
++ eliminarTodos():ProductoDAO
++ toString():String
++ obtenerInstancia():static ProductoDAO
++ obtenerConexion():Connection</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

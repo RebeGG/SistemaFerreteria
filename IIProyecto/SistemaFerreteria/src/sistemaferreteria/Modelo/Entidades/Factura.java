@@ -66,6 +66,45 @@ public class Factura {
         this.total = total;
     }
     
+    public void agregarProducto(Producto p){
+        if(p.getClass().equals(Herramienta.class)){
+            Herramienta h = (Herramienta) p;
+            if(productos.contains(p)){
+                h.setCantidadUnidades(h.getCantidadUnidades()+1);
+                productos.set(productos.indexOf(p), h);
+            }
+            else{
+                productos.add(p);
+            }
+        }
+        else{
+            Material m = (Material) p;
+            if(productos.contains(p)){
+                m.setPesoKg(m.getPesoKg() + 1);//mmmm no creo, revisar
+                productos.set(productos.indexOf(p), m);
+            }
+            else{
+                productos.add(p);
+            }
+        }
+    }
+    
+    public void eliminarProducto(Producto p) throws Exception{
+        if(productos.contains(p)){
+            productos.remove(p);
+        }else{
+            throw new Exception("Producto no existe en la factura.");
+        }
+    }
+    
+    public void borrarProductos() throws Exception{
+        if(!productos.isEmpty()){
+            productos.clear();
+        }else{
+            throw new Exception("FActura no contiene ningún producto hasta el momento.");
+        }
+    }
+    
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();

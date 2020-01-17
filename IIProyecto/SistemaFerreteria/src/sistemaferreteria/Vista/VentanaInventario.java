@@ -75,48 +75,74 @@ public class VentanaInventario extends javax.swing.JFrame {
     }
 
     public void actualizarCampos() {
-        if (btnHerramientas.isSelected()) {
-            if ((!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
-                Herramienta actual = (Herramienta) estado.getRegistroActual();
-                //fldcodigo.setText(actual.getCodigo());
-                fldname.setText(actual.getNombre());
-                fldTamano.setEditable(false);
-                comboCapacidad.setSelectedIndex(actual.getCapacidad());
-                //fldmedida.setText(actual.getMedida());
-                fldCant.setText(Integer.toString(actual.getCantidadUnidades()));
-                fieldPesoKg.setEnabled(false);
+        if (btnHerramientas.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+            Herramienta actual = (Herramienta) estado.getRegistroActual();
+            fldcodigo.setText(actual.getCodigo());
+            fldname.setText(actual.getNombre());
+            fldTamano.setEditable(false);
+            comboCapacidad.setSelectedIndex(actual.getCapacidad());
+            fldmedida.setText(actual.getMedida());
+            fldCant.setText(Integer.toString(actual.getCantidadUnidades()));
+            fieldPesoKg.setEnabled(false);
 
-            }
         }
-        if (btnMateriales.isSelected()) {
-            if ((!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
-                Material actual = (Material) estado.getRegistroActual();
-                //fldcodigo.setText(actual.getCodigo());
-                fldname.setText(actual.getNombre());
-                //fldTamano.setText(actual.getTamano());
-                comboCapacidad.setEnabled(false);
-                //fldmedida.setText(actual.getMedida());
-                fldCant.setEnabled(false);
-                fieldPesoKg.setText(Double.toString(actual.getPesoKg()));
+        if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+            Material actual = (Material) estado.getRegistroActual();
+            fldcodigo.setText(actual.getCodigo());
+            fldname.setText(actual.getNombre());
+            fldTamano.setText(actual.getTamano());
+            comboCapacidad.setEnabled(false);
+            fldmedida.setText(actual.getMedida());
+            fldCant.setEnabled(false);
+            fieldPesoKg.setText(Double.toString(actual.getPesoKg()));
 
-            }
         } else {
+
             fldcodigo.setText(null);
             fldname.setText(null);
             fldTamano.setText(null);
             comboCapacidad.setSelectedItem(null);
             fldmedida.setText(null);
-            fldCant.setText(null);
             fieldPesoKg.setText(null);
+            fldCant.setText(null);
         }
 
-        fldcodigo.setEnabled(estado.enModoAgregar() || estado.enModoBusqueda());
-        fldname.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
+        fldcodigo.setEnabled(estado.enModoAgregar() && !estado.enModoBusqueda());
+        fldname.setEnabled(!estado.enModoConsulta() || estado.enModoBusqueda());
         fldmedida.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
-        //comboCapacidad.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
-        // fldCant.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
-        //fieldPesoKg.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
-        //fldTamano.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
+        comboCapacidad.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
+        fldCant.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
+        fieldPesoKg.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
+        fldTamano.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
+    }
+
+    private Herramienta capturarRegistroHerramienta() {
+        Herramienta r;
+        r = new Herramienta(
+                fldcodigo.getText(),
+                fldname.getText(),
+                fldmedida.getText(),
+                comboCapacidad.getSelectedIndex(),
+                Integer.parseInt(fldCant.getText())
+        );
+        return r;
+    }
+
+    private Material capturarRegistroMaterial() {
+        Material r;
+        r = new Material(
+                fldcodigo.getText(),
+                fldname.getText(),
+                fldmedida.getText(),
+                fldTamano.getText(),
+                Double.parseDouble(fieldPesoKg.getText())
+        );
+        return r;
+    }
+
+    public void init() {
+        setVisible(true);
+        actualizar();
     }
 
     public void actualizar() {
@@ -124,11 +150,50 @@ public class VentanaInventario extends javax.swing.JFrame {
         actualizarCampos();
     }
 
+    private Material actualizarRegistroMaterial(Material r) {
+        if (r != null) {
+            r.setCodigo(fldcodigo.getText());
+            r.setNombre(fldname.getText());
+            r.setMedida(fldmedida.getText());
+            r.setTamano(fldTamano.getText());
+            r.setPesoKg(Double.parseDouble(fieldPesoKg.getText()));
+        }
+        return r;
+    }
+
+    private void actualizaCamposMaterial(Material p) {
+        fldcodigo.setText(p.getCodigo());
+        fldname.setText(p.getNombre());
+        fldmedida.setText(p.getMedida());
+        fldTamano.setText(p.getTamano());
+        fieldPesoKg.setText(Double.toString(p.getPesoKg()));
+    }
+
+    private Herramienta actualizarRegistroHerramienta(Herramienta r) {
+        if (r != null) {
+            r.setCodigo(fldcodigo.getText());
+            r.setNombre(fldname.getText());
+            r.setMedida(fldmedida.getText());
+            r.setCapacidad(comboCapacidad.getSelectedIndex());
+            r.setCantidadUnidades(Integer.parseInt(fldCant.getText()));
+        }
+        return r;
+    }
+
+    private void actualizaCampos(Herramienta p) {
+        fldcodigo.setText(p.getCodigo());
+        fldname.setText(p.getNombre());
+        fldmedida.setText(p.getMedida());
+        comboCapacidad.setSelectedIndex(p.getCapacidad());
+        fldCant.setText(Integer.toString(p.getCantidadUnidades()));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        btnProducto = new javax.swing.ButtonGroup();
         lblInventario = new javax.swing.JLabel();
         lblCodigo = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
@@ -237,6 +302,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 0);
         getContentPane().add(jLabel1, gridBagConstraints);
 
+        btnProducto.add(btnHerramientas);
         btnHerramientas.setText("Herramientas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -244,6 +310,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 0);
         getContentPane().add(btnHerramientas, gridBagConstraints);
 
+        btnProducto.add(btnMateriales);
         btnMateriales.setText("Materiales");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -430,11 +497,13 @@ public class VentanaInventario extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         estado.cambiarModoAgregar();
         actualizar();
+        fldcodigo.requestFocusInWindow();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         estado.cambiarModoBuscar();
         actualizar();
+         fldname.requestFocusInWindow();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -445,6 +514,7 @@ public class VentanaInventario extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         estado.cambiarModoModificar();
         actualizar();
+        fldname.requestFocusInWindow();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -509,6 +579,7 @@ public class VentanaInventario extends javax.swing.JFrame {
     private javax.swing.JRadioButton btnHerramientas;
     private javax.swing.JRadioButton btnMateriales;
     private javax.swing.JButton btnModificar;
+    private javax.swing.ButtonGroup btnProducto;
     private javax.swing.JComboBox<String> comboCapacidad;
     private javax.swing.JTextField fieldPesoKg;
     private javax.swing.JTextField fldCant;

@@ -63,7 +63,7 @@ public class ProductoDAO {
                 stm.setString(1, m.getCodigo());
                 stm.setString(2, m.getNombre());
                 stm.setString(3, m.getMedida());
-                stm.setDouble(4, m.getTamano());
+                stm.setString(4, m.getTamano());
                 stm.setDouble(5, m.getPesoKg());
             
                 exito = stm.executeUpdate() == 1;
@@ -130,8 +130,8 @@ public class ProductoDAO {
                         rs.getString("codigo"),
                         rs.getString("nombre"),
                         rs.getString("medida"),
-                        rs.getInt("tamano"),
-                        rs.getInt("pesoKg")
+                        rs.getString("tamano"),
+                        rs.getDouble("pesoKg")
                     ));
                 }
             }
@@ -170,12 +170,12 @@ public class ProductoDAO {
 
                 while (rs.next()) {
                     if(rs.getObject("nombre", String.class).equals(nombre)){
-                        r.add(new Herramienta(
+                        r.add(new Material(
                             rs.getString("codigo"),
                             rs.getString("nombre"),
                             rs.getString("medida"),
-                            rs.getInt("tamano"),
-                            rs.getInt("pesoKg")
+                            rs.getString("tamano"),
+                            rs.getDouble("pesoKg")
                         ));
                     }
                 }
@@ -238,9 +238,9 @@ public class ProductoDAO {
     private static final String CMD_LISTAR_MATERIAL
             = "SELECT codigo, nombre, medida, tamano, pesoKg FROM producto;";//creo que falta linkear la otra tabla(material)
     private static final String CMD_AGREGAR_HERRAMIENTA //esto de fijo es diferente
-            = "INSERT INTO persona (codigo, nombre, medida, capacidad, cantidadUnidades) "
+            = "INSERT INTO herramienta (codigo, nombre, medida, capacidad, cantidadUnidades) "
             + "VALUES (?, ?, ?, ?, ?);";
     private static final String CMD_AGREGAR_MATERIAL //esto de fijo es diferente
-            = "INSERT INTO persona (codigo, nombre, medida, tamano, pesoKg) "
+            = "INSERT INTO material (codigo, nombre, medida, tamano, pesoKg) "
             + "VALUES (?, ?, ?, ?, ?);";
 }

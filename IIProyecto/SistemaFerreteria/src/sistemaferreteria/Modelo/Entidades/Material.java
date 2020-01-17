@@ -16,23 +16,24 @@ import java.io.Serializable;
 
 public class Material extends Producto implements Serializable{
     
-    private double tamano, pesoKg;
+    private double pesoKg;
+    private String tamano;
     
-    public Material(String codigo, String nombre, String medida, double tamano, double pesoKg) {
+    public Material(String codigo, String nombre, String medida, String tamano, double pesoKg) {
         super(codigo, nombre, medida);
         this.tamano = tamano;
         this.pesoKg = pesoKg;
     }
     
     public Material(){
-        this("","","",0.0,0.0);
+        this("","","","",0.0);
     }
 
-    public double getTamano() {
+    public String getTamano() {
         return tamano;
     }
 
-    public void setTamano(double tamano) {
+    public void setTamano(String tamano) {
         this.tamano = tamano;
     }
 
@@ -46,7 +47,7 @@ public class Material extends Producto implements Serializable{
     
     @Override
     public String toString(){
-        return String.format("%s, %s, %s, %f, %f", getCodigo(), getNombre(), getMedida(), getTamano(), getPesoKg());
+        return String.format("%s, %s, %s, %s, %f", getCodigo(), getNombre(), getMedida(), getTamano(), getPesoKg());
     }
     
     @Override

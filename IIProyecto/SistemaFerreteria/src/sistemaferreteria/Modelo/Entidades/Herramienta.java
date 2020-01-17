@@ -20,14 +20,14 @@ public class Herramienta extends Producto {
     
     private int capacidad, cantidadUnidades;
     
-    public Herramienta(String nombre, double medida, int capacidad, int cantidadUnidades) {
-        super(nombre, medida);
+    public Herramienta(String nombre, double medida, int capacidad, int cantidadUnidades, String codigo) {
+        super(nombre, medida, codigo);
         this.capacidad = capacidad;
         this.cantidadUnidades = cantidadUnidades;
     }
     
     public Herramienta(){
-        this("", 0.0,0,0);
+        this("", 0.0,0,0,"");
     }
 
     public int getCapacidad() {

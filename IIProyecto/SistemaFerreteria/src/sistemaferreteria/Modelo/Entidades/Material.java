@@ -19,14 +19,14 @@ public class Material extends Producto {
     
     private double tamano, pesoKg;
     
-    public Material(String nombre, double medida, double tamano, double pesoKg) {
-        super(nombre, medida);
+    public Material(String nombre, double medida, double tamano, double pesoKg, String codigo) {
+        super(nombre, medida, codigo);
         this.tamano = tamano;
         this.pesoKg = pesoKg;
     }
     
     public Material(){
-        this("",0.0,0.0,0.0);
+        this("",0.0,0.0,0.0,"");
     }
 
     public double getTamano() {

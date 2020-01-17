@@ -15,10 +15,12 @@ package sistemaferreteria.Modelo.Entidades;
 public abstract class Producto {
     private String nombre;
     private double medida;
+    private String codigo;
 
-    public Producto(String nombre, double medida) {
+    public Producto(String nombre, double medida, String codigo) {
         this.nombre = nombre;
         this.medida = medida;
+        this.codigo = codigo;
     }
 
     public String getNombre() {
@@ -35,6 +37,14 @@ public abstract class Producto {
 
     public void setMedida(double medida) {
         this.medida = medida;
+    }
+    
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     
 }

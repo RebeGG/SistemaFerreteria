@@ -1,4 +1,4 @@
-package sistemaferreteria.Modelo;
+package sistemaferreteria.Modelo.Entidades;
 
 //  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales

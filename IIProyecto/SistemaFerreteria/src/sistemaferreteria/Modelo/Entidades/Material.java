@@ -1,6 +1,9 @@
-package sistemaferreteria.Modelo;
+package sistemaferreteria.Modelo.Entidades;
 
 //  Universidad Nacional
+
+import sistemaferreteria.Modelo.Entidades.Producto;
+
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
 //  

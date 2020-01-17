@@ -1,5 +1,7 @@
 package sistemaferreteria.Modelo.Entidades;
 
+import java.io.Serializable;
+
 //  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
@@ -12,7 +14,7 @@ package sistemaferreteria.Modelo.Entidades;
 //
 //  III Ciclo 2019
 
-public class Herramienta extends Producto {
+public class Herramienta extends Producto implements Serializable{
     
     private static final int LIVIANO = 1;
     private static final int MEDIANO = 2;
@@ -20,14 +22,14 @@ public class Herramienta extends Producto {
     
     private int capacidad, cantidadUnidades;
     
-    public Herramienta(String nombre, double medida, int capacidad, int cantidadUnidades, String codigo) {
-        super(nombre, medida, codigo);
+    public Herramienta(String codigo, String nombre, String medida, int capacidad, int cantidadUnidades) {
+        super(codigo, nombre, medida);
         this.capacidad = capacidad;
         this.cantidadUnidades = cantidadUnidades;
     }
     
     public Herramienta(){
-        this("", 0.0,0,0,"");
+        this("","","",0,0);
     }
 
     public int getCapacidad() {
@@ -48,6 +50,28 @@ public class Herramienta extends Producto {
     
     @Override
     public String toString(){
-        return String.format("%s, %f, %d, %d", getNombre(), getMedida(), getCapacidad(), getCantidadUnidades());
+        return String.format("%s, %s, %s, %d, %d", getCodigo(), getNombre(), getMedida(), getCapacidad(), getCantidadUnidades());
     }
+
+    @Override
+    public Object[] toArray() {
+        Object[] r = new Object[7];
+        r[0] = getCodigo();
+        r[1] = getNombre();
+        r[2] = getMedida();
+        switch(getCapacidad()){
+            case LIVIANO:{
+                r[3] = "Liviano";
+            }break;
+            case MEDIANO:{
+                r[3] = "Mediano";
+            }break;
+            case PESADO:{
+                r[3] = "Pesado";
+            }break;
+        }
+        r[4] = 0.0;
+        return r;
+    }
+
 }

@@ -1,9 +1,8 @@
 package sistemaferreteria.Modelo.Entidades;
 
+import java.io.Serializable;
+
 //  Universidad Nacional
-
-import sistemaferreteria.Modelo.Entidades.Producto;
-
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
 //  
@@ -15,18 +14,18 @@ import sistemaferreteria.Modelo.Entidades.Producto;
 //
 //  III Ciclo 2019
 
-public class Material extends Producto {
+public class Material extends Producto implements Serializable{
     
     private double tamano, pesoKg;
     
-    public Material(String nombre, double medida, double tamano, double pesoKg, String codigo) {
-        super(nombre, medida, codigo);
+    public Material(String codigo, String nombre, String medida, double tamano, double pesoKg) {
+        super(codigo, nombre, medida);
         this.tamano = tamano;
         this.pesoKg = pesoKg;
     }
     
     public Material(){
-        this("",0.0,0.0,0.0,"");
+        this("","","",0.0,0.0);
     }
 
     public double getTamano() {
@@ -47,7 +46,17 @@ public class Material extends Producto {
     
     @Override
     public String toString(){
-        return String.format("%s, %f, %f, %f", getNombre(), getMedida(), getTamano(), getPesoKg());
+        return String.format("%s, %s, %s, %f, %f", getCodigo(), getNombre(), getMedida(), getTamano(), getPesoKg());
     }
-       
+    
+    @Override
+    public Object[] toArray() {
+        Object[] r = new Object[7];
+        r[0] = getCodigo();
+        r[1] = getNombre();
+        r[2] = getMedida();
+        r[3] = "-";
+        r[4] = getTamano();
+        return r;
+    }       
 }

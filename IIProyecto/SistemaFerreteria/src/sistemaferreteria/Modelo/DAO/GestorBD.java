@@ -18,6 +18,8 @@ import java.sql.SQLException;
 
 public class GestorBD {
     
+    private static GestorBD instancia = null;
+    
     private GestorBD() {
         System.out.println("Inicializando manejador BD..");
         try {
@@ -47,6 +49,4 @@ public class GestorBD {
         cnx = DriverManager.getConnection(URL_conexion, usuario, clave);
         return cnx;
     }
-
-    private static GestorBD instancia = null;
 }

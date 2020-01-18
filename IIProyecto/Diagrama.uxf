@@ -138,7 +138,8 @@ bg=none</panel_attributes>
 + actualizarProducto(Producto):boolean
 + agregarProductoFactura(Producto):void
 + eliminarProductoFactura(Producto):void
-+ borrarProductosFactura():void</panel_attributes>
++ borrarProductosFactura():void
++ cargar():void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -272,6 +273,7 @@ bg=none</panel_attributes>
     <panel_attributes>SistemaFerreteria
 --
 --
++ init():void
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -360,13 +362,13 @@ bg=none</panel_attributes>
     </coordinates>
     <panel_attributes>Material
 --
-- tamano:double
+- tamano:String
 - pesoKg:double
 --
 + Material()
-+ Material(String, String, String, double, double)
-+ getTamano():double
-+ setcapacidad(double):void
++ Material(String, String, String, String, double)
++ getTamano():String
++ setTamano(String):void
 + getPesoKg():double
 + setPesoKg(double):void
 + toString():String

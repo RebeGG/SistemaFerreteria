@@ -129,6 +129,7 @@ bg=none</panel_attributes>
 + registrarTabla(Observer):void
 + suprimir(Observer):void
 + cerrarAplicacion():void
++ listarInventario():void
 + listarProductos(Producto):void
 + listarHerramientas(String):void
 + listarMateriales(String):void
@@ -287,18 +288,41 @@ bg=none</panel_attributes>
     </coordinates>
     <panel_attributes>Modelo
 --
-- inventario:Inventario
+- activo:boolean
 - factura:Factura
+- banderaMinuto:int
+- promedioAgregar:int
+- promedioActualizar:int
+- promedioEliminar:int
+- promedioConsultar:int
+- inventario:Inventario
 - producto:Producto
+- MAX_ESPERA = 30000:static final int
+- hiloControl = null:Thread
 --
 + Modelo()
++ activo():synchronized boolean
++ establecerActivo(boolean):synchronized void
++ getBanderaMinuto():int
++ setBanderaMinuto(int):void
 + getInventario():Inventario
 + setInventario(List&lt;Producto&gt;):void
 + getFactura():Factura
 + setFactura(Factura):void
 + getProducto():Producto
 + setProducto(Producto):void
++ getPromedioAgregar():int
++ setPromedioAgregar(int):void
++ getPromedioActualizar():int
++ setPromedioActualizar(int):void
++ getPromedioConsultar():int
++ setPromedioConsultar(int):void
++ getPromedioEliminar():int
++ setPromedioEliminar(int):void
 + obtenerModeloTabla():Inventario
++ init():void
++ run():void
++ actualizar():void
 + agregarProductoFactura(Producto):void
 + eliminarProductoFactura(Producto):void
 + borrarProductosFactura():void</panel_attributes>

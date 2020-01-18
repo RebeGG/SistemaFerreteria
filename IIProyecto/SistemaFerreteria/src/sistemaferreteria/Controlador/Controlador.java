@@ -32,12 +32,11 @@ public class Controlador {
     
     public Controlador() {
         this(new Modelo());
-        pd = null;
     }
 
     public Controlador(Modelo datos) {
         this.datos = datos;
-        pd = null;
+        this.pd = null;
     }
 
     public Modelo getDatos() {
@@ -66,57 +65,75 @@ public class Controlador {
         System.exit(0);
     }
     
+    
+    //Métodos Administración de Inventario
+    //lista todo el inventario
+    public void listarInventario() throws Exception{
+        pd = ProductoDAO.obtenerInstancia();
+        datos.setInventario(pd.listar());
+        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
+    }
+    
     //busca según tipo de producto(Material/Herramienta)
     public void listarProductos(Producto p) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
         datos.setInventario(pd.listar(p));
+        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
      
     //busca según nombre de la Herramienta
     public void listarHerramientas(String nombre) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
         datos.setInventario(pd.listarHerramienta(nombre));
+        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca según nombre del Material
     public void listarMateriales(String nombre) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
         datos.setInventario(pd.listarMaterial(nombre));
+        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca un Producto específico
     public Producto obtenerProducto(Producto p) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
+        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
         return pd.recuperar(p.getCodigo());
     }
     
     //agregar un producto
     public boolean agregarProducto(Producto p) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
+        datos.setPromedioAgregar(datos.getPromedioAgregar() + 1);
         return pd.agregar(p);
         //datos.agregar(p);////puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que agrego cosas...
-    }
-    
-    //eliminar un producto
-    public boolean eliminarProducto(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        return pd.eliminar(p.getCodigo());
-        //datos.eliminar(p);//puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que elimino cosas...
     }
     
     //actualizar un producto
     public boolean actualizarProducto(Producto p) throws Exception{
         pd = ProductoDAO.obtenerInstancia();
+        datos.setPromedioActualizar(datos.getPromedioActualizar() + 1);
         return pd.actualizar(p);
         //datos.actualizar(p);//puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que elimino cosas...
     }
     
+    //eliminar un producto
+    public boolean eliminarProducto(Producto p) throws Exception{
+        pd = ProductoDAO.obtenerInstancia();
+        datos.setPromedioEliminar(datos.getPromedioEliminar() + 1);
+        return pd.eliminar(p.getCodigo());
+        //datos.eliminar(p);//puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que elimino cosas...
+    }
+    
+
+    //Métodos Factura
     //agrega producto a la factura
     public void agregarProductoFactura(Producto p){
         datos.agregarProductoFactura(p);
     }
     
-    //elimmina producto de la factura
+    //elimina producto de la factura
     public void eliminarProductoFactura(Producto p) throws Exception{
         datos.eliminarProductoFactura(p);
     }
@@ -125,6 +142,7 @@ public class Controlador {
     public void borrarProductosFactura() throws Exception{
         datos.borrarProductosFactura();
     }
+    
     
     //cargar inventario
     public void cargar() throws Exception{

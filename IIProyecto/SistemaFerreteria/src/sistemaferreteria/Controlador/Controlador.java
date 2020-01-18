@@ -2,8 +2,6 @@ package sistemaferreteria.Controlador;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observer;
 import java.util.Scanner;
 import sistemaferreteria.Modelo.DAO.ProductoDAO;

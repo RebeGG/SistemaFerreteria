@@ -21,6 +21,7 @@ public class Modelo extends Observable implements Runnable {
 
     private boolean activo;
     private Factura factura;
+    private int banderaMinuto;
     private int promedioAgregar;
     private int promedioActualizar;
     private int promedioEliminar;
@@ -32,6 +33,7 @@ public class Modelo extends Observable implements Runnable {
 
     public Modelo() {
         this.activo = false;
+        this.banderaMinuto = 0;
         this.factura = new Factura();
         this.inventario = new Inventario();
         this.producto = null;
@@ -47,6 +49,14 @@ public class Modelo extends Observable implements Runnable {
 
     public synchronized void establecerActivo(boolean activo) {
         this.activo = activo;
+    }
+    
+    public int getBanderaMinuto() {
+        return banderaMinuto;
+    }
+    
+    public void setBanderaMinuto(int bandera) {
+        this.banderaMinuto = bandera;
     }
     
     public Inventario getInventario() {
@@ -131,7 +141,18 @@ public class Modelo extends Observable implements Runnable {
     @Override
     public void run() {
         while (hiloControl == Thread.currentThread()) {
-            actualizar();
+            //provisional, por que hay que mostrar el promedio 2 veces por min...
+            setBanderaMinuto(getBanderaMinuto() + 1);
+            if(getBanderaMinuto() < 2){
+                actualizar();
+            }else{
+                actualizar();
+                setPromedioAgregar(0);
+                setPromedioActualizar(0);
+                setPromedioConsultar(0);
+                setPromedioEliminar(0);
+                setBanderaMinuto(0);
+            }
             try {
                 Thread.sleep(MAX_ESPERA);
             } catch (InterruptedException ex) {

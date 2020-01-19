@@ -7,6 +7,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sistemaferreteria.Controlador.Controlador;
+import sistemaferreteria.Vista.VentanaInventario;
+import sistemaferreteria.Vista.VentanaPrincipal;
 
 //  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
@@ -43,7 +45,7 @@ public class SistemaFerreteria {
 //            System.err.println(ex.getMessage());
 //        }
         SwingUtilities.invokeLater(() -> {
-            //new VentanaPrincipal(controlador).init();
+            new VentanaPrincipal("Inventario",controlador).init();
         });
     }
     

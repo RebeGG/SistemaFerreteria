@@ -506,6 +506,7 @@ bg=none</panel_attributes>
 + agregarProducto(Producto):void
 + eliminarProducto(Producto):void
 + borrarProductos():void
++ obtener(Producto):Producto
 + toString()String </panel_attributes>
     <additional_attributes/>
   </element>

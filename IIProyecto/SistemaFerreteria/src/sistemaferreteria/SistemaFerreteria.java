@@ -38,7 +38,7 @@ public class SistemaFerreteria {
     public void init() {
         Controlador controlador = new Controlador();
         SwingUtilities.invokeLater(() -> {
-            new VentanaInventario("Inventario",controlador).init();
+            new VentanaPrincipal("Inventario",controlador).init();
         });
     }
     

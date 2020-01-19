@@ -101,8 +101,15 @@ public class Factura {
         if(!productos.isEmpty()){
             productos.clear();
         }else{
-            throw new Exception("FActura no contiene ningún producto hasta el momento.");
+            throw new Exception("Factura no contiene ningún producto hasta el momento.");
         }
+    }
+    
+    public Producto obtener(Producto p){
+        if(productos.contains(p)){
+            return productos.get(productos.indexOf(p));
+        }
+        return null;
     }
     
     @Override

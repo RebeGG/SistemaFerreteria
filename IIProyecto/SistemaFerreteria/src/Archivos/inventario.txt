@@ -1,10 +1,10 @@
-H001	Martillo	1"	1	0
-M001	Tornillo	1" 1/4	4" 1/2	0.0
-M002	Clavo	6mm	18mm	0.0
-M003	Clavo	5mm	15mm	0.0
-H002	Desatornillador	20mm	2	0
-H003	Llave de tuerca	2" 1/8	2	0
-H004	Taladro	20mm	3	0
-M004	Tornillo	32mm	17mm	0.0
-H005	Llave de tuerca	3" 1/2	3	0
-M005	Tornillo	15mm	10mm	0.0
+H001	Martillo	1"	1	70
+M001	Tornillo	1" 1/4	4" 1/2	350.0
+M002	Clavo	6mm	18mm	500.25
+M003	Clavo	5mm	15mm	800.50
+H002	Desatornillador	20mm	2	65
+H003	Llave de tuerca	2" 1/8	2	45
+H004	Taladro	20mm	3	50
+M004	Tornillo	32mm	17mm	500.70
+H005	Llave de tuerca	3" 1/2	3	80
+M005	Tornillo	15mm	10mm	440.0

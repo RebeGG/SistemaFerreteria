@@ -5,6 +5,8 @@ import java.util.Observable;
 import sistemaferreteria.Modelo.Entidades.Factura;
 import sistemaferreteria.Modelo.Entidades.Inventario;
 import sistemaferreteria.Modelo.Entidades.Producto;
+import sistemaferreteria.Modelo.Entidades.Herramienta;
+import sistemaferreteria.Modelo.Entidades.Material;
 
 //  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
@@ -173,11 +175,51 @@ public class Modelo extends Observable implements Runnable {
     
     
     //Métodos Factura
-    public void agregarProductoFactura(Producto p) {
-        factura.agregarProducto(p);
+    public void agregarProductoFactura(Producto p) throws Exception{ //puedde variar, porque no sé si pasar el DAO acá en lugar de en el Controlador
+        if(p.getClass().equals(Herramienta.class)){
+            Herramienta productoH = (Herramienta)producto;
+            Herramienta h = (Herramienta)p;
+            if(productoH.getCantidadUnidades() >= h.getCantidadUnidades()){
+                productoH.setCantidadUnidades(productoH.getCantidadUnidades() - h.getCantidadUnidades());
+            }
+            else{
+                throw new Exception("No existen unidades suficientes para la compra");
+            }
+        }
+        else{
+            Material productoM = (Material)producto;
+            Material m = (Material)p;
+            if(productoM.getPesoKg() >= m.getPesoKg()){
+                productoM.setPesoKg(productoM.getPesoKg() - m.getPesoKg());
+            }
+            else{
+                throw new Exception("No existen unidades suficientes para la compra");
+            }
+        }
+        factura.agregarProducto(p);//not sure si va aquí
     }
 
     public void eliminarProductoFactura(Producto p) throws Exception {
+        if(p.getClass().equals(Herramienta.class)){
+            Herramienta productoH = (Herramienta)producto;
+            Herramienta h = (Herramienta)p;
+            if(factura.obtener(p) != null){
+                productoH.setCantidadUnidades(productoH.getCantidadUnidades() + h.getCantidadUnidades());
+            }
+            else{
+                throw new Exception("Este producto no se encuentra registrado en la factura");
+            }
+        }
+        else{
+            Material productoM = (Material)producto;
+            Material m = (Material)p;
+            if(factura.obtener(p) != null){
+                productoM.setPesoKg(productoM.getPesoKg() + m.getPesoKg());
+            }
+            else{
+                throw new Exception("Este producto no se encuentra registrado en la factura");
+            }
+        }
         factura.eliminarProducto(p);
     }
 

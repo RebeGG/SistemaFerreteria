@@ -127,13 +127,20 @@ public class Controlador {
 
     //Métodos Factura
     //agrega producto a la factura
-    public void agregarProductoFactura(Producto p){
+    public void agregarProductoFactura(Producto p)throws Exception{
+        //revisar que exista la cantidad suficiente  y hacer las deducciones correspondientes
+        pd = ProductoDAO.obtenerInstancia();
+        datos.setProducto(pd.recuperar(p.getCodigo()));
         datos.agregarProductoFactura(p);
+        pd.actualizar(datos.getProducto());
     }
     
     //elimina producto de la factura
     public void eliminarProductoFactura(Producto p) throws Exception{
+        pd = ProductoDAO.obtenerInstancia();
+        datos.setProducto(pd.recuperar(p.getCodigo()));
         datos.eliminarProductoFactura(p);
+        pd.actualizar(datos.getProducto());
     }
     
     //elimmina todos los productos de la factura

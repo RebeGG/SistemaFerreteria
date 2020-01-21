@@ -112,20 +112,20 @@ public class Factura {
         }
     }
     
-    public void borrarProductos() throws Exception{
-        if(!productos.isEmpty()){
-            productos.clear();
-        }else{
-            throw new Exception("Factura no contiene ningún producto hasta el momento.");
-        }
-    }
-    
-    public Detalle obtener(Detalle d){
-        if(productos.contains(d)){
-            return productos.get(productos.indexOf(d));
-        }
-        return null;
-    }
+//    public void borrarProductos() throws Exception{
+//        if(!productos.isEmpty()){
+//            productos.clear();
+//        }else{
+//            throw new Exception("Factura no contiene ningún producto hasta el momento.");
+//        }
+//    }
+//    
+//    public Detalle obtener(Detalle d){
+//        if(productos.contains(d)){
+//            return productos.get(productos.indexOf(d));
+//        }
+//        return null;
+//    }
     
     @Override
     public String toString(){

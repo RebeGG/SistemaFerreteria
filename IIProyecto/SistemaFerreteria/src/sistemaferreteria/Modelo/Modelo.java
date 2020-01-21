@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sistemaferreteria.Modelo.DAO.FacturaDAO;
+import sistemaferreteria.Modelo.DAO.GestorBD;
 import sistemaferreteria.Modelo.DAO.HerramientaDAO;
 import sistemaferreteria.Modelo.DAO.MaterialDAO;
 import sistemaferreteria.Modelo.Entidades.Detalle;
@@ -48,6 +49,7 @@ public class Modelo extends Observable implements Runnable {
     private FacturaDAO fd;
 
     public Modelo() {
+        GestorBD bd = GestorBD.obtenerInstancia();//realmente noo sé donde ponerlo o si va en el main más bien...
         this.activo = false;
         this.banderaMinuto = 0;
         this.factura = new Factura();
@@ -326,7 +328,9 @@ public class Modelo extends Observable implements Runnable {
     public boolean agregarFactura() throws Exception{
         fd = FacturaDAO.obtenerInstancia();
         setPromedioAgregar(getPromedioAgregar() + 1);
-        return fd.agregar(factura);
+        boolean resultado = fd.agregar(factura);
+        factura = new Factura();
+        return resultado;
     }
     
     //agrega producto a la factura

@@ -17,8 +17,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>777</x>
-      <y>49</y>
+      <x>861</x>
+      <y>42</y>
       <w>168</w>
       <h>371</h>
     </coordinates>
@@ -56,10 +56,10 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>525</x>
+      <x>490</x>
       <y>217</y>
-      <w>245</w>
-      <h>273</h>
+      <w>364</w>
+      <h>399</h>
     </coordinates>
     <panel_attributes>DAO
 --
@@ -69,8 +69,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>812</x>
-      <y>77</y>
+      <x>889</x>
+      <y>70</y>
       <w>98</w>
       <h>28</h>
     </coordinates>
@@ -82,8 +82,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>819</x>
-      <y>119</y>
+      <x>889</x>
+      <y>112</y>
       <w>98</w>
       <h>28</h>
     </coordinates>
@@ -120,7 +120,6 @@ bg=none</panel_attributes>
     <panel_attributes>Controlador
 --
 - datos:Modelo
-- pd:ProductoDAO
 --
 + Controlador()
 + Controlador(Modelo)
@@ -137,6 +136,7 @@ bg=none</panel_attributes>
 + agregarProducto(Producto):boolean
 + eliminarProducto(Producto):boolean
 + actualizarProducto(Producto):boolean
++ agregarFactura():boolean
 + agregarProductoFactura(Producto):void
 + eliminarProductoFactura(Producto):void
 + borrarProductosFactura():void
@@ -227,8 +227,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>784</x>
-      <y>280</y>
+      <x>868</x>
+      <y>287</y>
       <w>154</w>
       <h>119</h>
     </coordinates>
@@ -240,8 +240,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>798</x>
-      <y>322</y>
+      <x>896</x>
+      <y>315</y>
       <w>91</w>
       <h>28</h>
     </coordinates>
@@ -253,7 +253,7 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>798</x>
+      <x>896</x>
       <y>357</y>
       <w>91</w>
       <h>28</h>
@@ -281,8 +281,8 @@ bg=none</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>364</x>
-      <y>511</y>
+      <x>224</x>
+      <y>546</y>
       <w>77</w>
       <h>28</h>
     </coordinates>
@@ -299,6 +299,9 @@ bg=none</panel_attributes>
 - producto:Producto
 - MAX_ESPERA = 30000:static final int
 - hiloControl = null:Thread
+- hd:HerramientaDAO
+- md:MaterialDAO
+- fd:FacturaDAO
 --
 + Modelo()
 + activo():synchronized boolean
@@ -323,9 +326,17 @@ bg=none</panel_attributes>
 + init():void
 + run():void
 + actualizar():void
++ listarProductos(Producto):void
++ listarHerramientas(String):void
++ listarMateriales(String):void
++ obtenerProducto(Producto):Producto
++ agregarProducto(Producto):boolean
++ actualizarProducto(Producto):boolean
++ eliminarProducto(Producto):boolean
++ agregarFactura():boolean
 + agregarProductoFactura(Producto):void
-+ eliminarProductoFactura(Producto):void
-+ borrarProductosFactura():void</panel_attributes>
++ eliminarProductoFactura(Producto):boolean
++ cargar():void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -341,15 +352,21 @@ bg=none</panel_attributes>
 - codigo:String
 - nombre:String
 - medida:String
+- precio:double
 --
 + Producto()
-+ Producto(String,String,String)
++ Producto(String,String,String,double)
 + getCodigo():String
 + setCodigo(String):void
 + getNombre():String
 + setNombre(String):void
 + getMedida():String
 + setMedida(String):void
++ getPrecio():double
++ setPrecio(double):void
++ toArray():abstract Object[]
++ getFieldCount():static int
++ String toString():abstract
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -367,7 +384,7 @@ bg=none</panel_attributes>
 - cantidadUnidades:int
 --
 + Herramienta()
-+ Herramienta(String, String, String, int, int)
++ Herramienta(String, String, String, double, int, int)
 + getCapacidad():int
 + setcapacidad(int):void
 + getCantidadUnidades():int
@@ -390,7 +407,7 @@ bg=none</panel_attributes>
 - pesoKg:double
 --
 + Material()
-+ Material(String, String, String, String, double)
++ Material(String, String, String, double, String, double)
 + getTamano():String
 + setTamano(String):void
 + getPesoKg():double
@@ -471,7 +488,7 @@ bg=none</panel_attributes>
       <x>21</x>
       <y>63</y>
       <w>441</w>
-      <h>406</h>
+      <h>427</h>
     </coordinates>
     <panel_attributes>Entidades
 --
@@ -488,35 +505,99 @@ bg=none</panel_attributes>
     </coordinates>
     <panel_attributes>Factura
 --
-- nombre:String
+- numero:int
 - fecha:Date 
-- producto:List&lt;Producto&gt;
+- producto:List&lt;Detalle&gt;
 - total:double 
 --
-+ Factura(String, Date)
++ Factura(int, Date)
 + Factura()
-+ getNombre():String
-+ setNombre(String):void
++ getNumero():int
++ setNumero(int):void
 + getFecha():Date
 + setFecha(Date):void
-+ getProductos():List&lt;Producto&gt; 
-+ setProductos(List&lt;Producto&gt;):void
++ getProductos():List&lt;Detalle&gt; 
++ setProductos(List&lt;Detalle&gt;):void
 + getTotal():double
 + setTotal(double):void
-+ agregarProducto(Producto):void
-+ eliminarProducto(Producto):void
-+ borrarProductos():void
-+ obtener(Producto):Producto
++ agregarDetalle(Detalle):void
++ eliminarDetalle(Detalle):void
++ calcularTotal():double
 + toString()String </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>532</x>
-      <y>315</y>
-      <w>217</w>
-      <h>154</h>
+      <x>511</x>
+      <y>322</y>
+      <w>112</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>HerramientaDAO
+--
+- instancia = null:static HerramientaDAO
+- cfg:Properties
+- baseDatos:String
+- usuario:String
+- clave:String
+- CMD_LISTAR = "SELECT codigo, nombre, medida, capacidad, cantidadUnidades, precio FROM herramienta; ":static final String
+- CMD_LISTAR_POR_NOMBRE = "SELECT codigo, nombre, medida, capacidad, cantidadUnidades, precio FROM herramienta WHERE nombre=?; ":static final String
+- CMD_RECUPERAR = "SELECT codigo, nombre, medida, capacidad, cantidadUnidades, precio FROM herramienta WHERE codigo=?; ":static final String
+- CMD_AGREGAR = "INSERT INTO herramienta (codigo, nombre, medida, capacidad, cantidadUnidades, precio) " + "VALUES (?, ?, ?, ?, ?, ?); ":static final String
+- CMD_ACTUALIZAR = "UPDATE herramienta SET nombre=?, medida=?, capacidad=?, cantidadUnidades=?, precio=? " + "WHERE codigo=?; ":static final String
+- CMD_ELIMINAR = "DELETE FROM herramienta WHERE codigo=?; ":static final String
+--
++ HerramientaDAO()
++ agregar(Herramienta):boolean
++ listar():List&lt;Herramienta&gt;
++ listarPorNombre(String):List&lt;Herramienta&gt;
++ recuperar(String):Herramienta
++ actualizar(Herramienta):boolean
++ eliminar(String):boolean 
++ toString():String
++ obtenerInstancia():static HerramientaDAO
++ obtenerConexion():Connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>469</y>
+      <w>140</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>FacturaDAO
+--
+- instancia = null:static FacturaDAO
+- cfg:Properties
+- baseDatos:String
+- usuario:String
+- clave:String
+- CMD_AGREGAR = "INSERT INTO factura (numero, fecha, total) " + "VALUES (?, ?, ?); ":static final String
+- CMD_AGREGAR_DETALLE = "INSERT INTO detalle (numero_factura, secuencia, codigo_producto, precio_total) " + "VALUES (?, ?, ?, ?); ":static final String
+- CMD_ACTUALIZAR = "UPDATE detalle SET secuencia=?, codigo_producto=?, precio_total=? " + "WHERE numero_factura=?; ":static final String
+- CMD_ELIMINAR = "DELETE FROM factura WHERE numero=?; ":static final String
+- CMD_ELIMINAR_DETALLE_POR_FACTURA = "DELETE FROM detalle WHERE numero_factura=?; ":static final String
+- CMD_ELIMINAR_DETALLE = "DELETE FROM detalle WHERE numero_factura=?,codigo_producto=?; ":static final String
+--
++ FacturaDAO()
++ agregar(Factura):boolean
++ actualizar(Factura):boolean
++ eliminar(int):boolean 
++ eliminarDetalle(int, String):ProductoDAO
++ obtenerInstancia():static ProductoDAO
++ obtenerConexion():Connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>742</x>
+      <y>574</y>
+      <w>112</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>ProductoDAO
 --
@@ -543,6 +624,66 @@ bg=none</panel_attributes>
 + toString():String
 + obtenerInstancia():static ProductoDAO
 + obtenerConexion():Connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>658</x>
+      <y>322</y>
+      <w>112</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>MaterialDAO
+--
+- instancia = null:static MaterialDAO
+- cfg:Properties
+- baseDatos:String
+- usuario:String
+- clave:String
+- CMD_LISTAR = "SELECT codigo, nombre, medida, tamano, pesoKg, precio FROM material; ":static final String
+- CMD_LISTAR_POR_NOMBRE = "SELECT codigo, nombre, medida, tamano, pesoKg, precio FROM material WHERE nombre=?; ":static final String
+- CMD_RECUPERAR = "SELECT codigo, nombre, medida, tamano, pesoKg, precio FROM material WHERE codigo=?; ":static final String
+- CMD_AGREGAR = "INSERT INTO material (codigo, nombre, medida, tamano, pesoKg, precio) " + "VALUES (?, ?, ?, ?, ?, ?); ":static final String
+- CMD_ACTUALIZAR = "UPDATE material SET nombre=?, medida=?, tamano=?, pesoKg=?, precio=? " + "WHERE codigo=?; ":static final String
+- CMD_ELIMINAR = "DELETE FROM material WHERE codigo=?; ":static final String
+--
++ MaterialDAO()
++ agregar(Material):boolean
++ listar():List&lt;Material&gt;
++ listarPorNombre(String):List&lt;Material&gt;
++ recuperar(String):Material
++ actualizar(Material):boolean
++ eliminar(String):boolean 
++ toString():String
++ obtenerInstancia():static MaterialDAO
++ obtenerConexion():Connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>469</y>
+      <w>140</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>Detalle
+--
+- secuencia:int
+- producto:Producto 
+- precio_total:double 
+--
++ Detalle(int, Producto, double)
++ Detalle()
++ getSecuencia():int
++ setSecuencia(int):void
++ getProducto():Producto
++ setProducto(Producto):void
++ getPrecio_total():double
++ setPrecio_total(double):void
++ calcularTotal():double
++ toString()String </panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

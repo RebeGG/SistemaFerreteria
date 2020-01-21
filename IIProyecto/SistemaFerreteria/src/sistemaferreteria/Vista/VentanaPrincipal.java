@@ -2,7 +2,10 @@ package sistemaferreteria.Vista;
 
 //  Universidad Nacional
 
+import java.util.Observable;
+import java.util.Observer;
 import sistemaferreteria.Controlador.Controlador;
+import sistemaferreteria.Modelo.Modelo;
 
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
@@ -15,7 +18,7 @@ import sistemaferreteria.Controlador.Controlador;
 //
 //  III Ciclo 2019
 
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     Controlador gestor;
     public VentanaPrincipal(String titulo, Controlador gestor){
         super(titulo);
@@ -35,6 +38,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public void init() {
+        gestor.registrar(this);
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -164,8 +168,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
     }
-    VentanaInventario inventario;
-    VentanaFactura factura;
+    
+     @Override
+    public void update(Observable o, Object arg) {
+        modelo = (Modelo) o;
+    }
+    
+    private Modelo modelo = null;
+    private VentanaInventario inventario;
+    private VentanaFactura factura;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem facturacionItem;
     private javax.swing.JMenuItem inventarioItem;
@@ -177,4 +188,5 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem salirMenuItem;
     private javax.swing.JLabel tituloSistema;
     // End of variables declaration//GEN-END:variables
+
 }

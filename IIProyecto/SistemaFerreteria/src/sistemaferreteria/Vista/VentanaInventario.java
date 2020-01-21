@@ -66,8 +66,9 @@ public class VentanaInventario extends javax.swing.JFrame {
         fldname.getDocument().addDocumentListener(docCnt);
         fldmedida.getDocument().addDocumentListener(docCnt);
         comboCapacidad.addItemListener(itemCnt);
-        fieldPesoKg.getDocument().addDocumentListener(docCnt);
-        fldCant.getDocument().addDocumentListener(docCnt);
+        //fieldPesoKg.getDocument().addDocumentListener(docCnt);
+        //fldCant.getDocument().addDocumentListener(docCnt);
+        fieldPrecio.getDocument().addDocumentListener(docCnt);
     }
 
     public void actualizarBotones() {
@@ -90,8 +91,9 @@ public class VentanaInventario extends javax.swing.JFrame {
             fldTamano.setEnabled(false);
             comboCapacidad.setSelectedIndex(actual.getCapacidad());
             fldmedida.setText(actual.getMedida());
-            fldCant.setText(Integer.toString(actual.getCantidadUnidades()));
-            fieldPesoKg.setEnabled(false);
+            spinnerCant.setValue(actual.getCantidadUnidades());
+            spinnerPeso.setEnabled(false);
+            fieldPrecio.setText(Double.toString(actual.getPrecio()));
 
         }
         if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
@@ -101,8 +103,9 @@ public class VentanaInventario extends javax.swing.JFrame {
             fldTamano.setText(actual.getTamano());
             comboCapacidad.setEnabled(false);
             fldmedida.setText(actual.getMedida());
-            fldCant.setEnabled(false);
-            fieldPesoKg.setText(Double.toString(actual.getPesoKg()));
+            spinnerCant.setEnabled(false);
+            spinnerPeso.setValue(actual.getPesoKg());
+            fieldPrecio.setText(Double.toString(actual.getPrecio()));
 
        } else {
             fldcodigo.setText(null);
@@ -110,16 +113,18 @@ public class VentanaInventario extends javax.swing.JFrame {
             fldTamano.setText(null);
             comboCapacidad.setSelectedItem(null);
             fldmedida.setText(null);
-            fieldPesoKg.setText(null);
-            fldCant.setText(null);
+            spinnerCant.setValue(0);
+            spinnerPeso.setValue(0.0);
+            fieldPrecio.setText(null);
         }
         fldcodigo.setEnabled(estado.enModoAgregar() && !estado.enModoBusqueda());
         fldname.setEnabled(!estado.enModoConsulta() || estado.enModoBusqueda());
         fldmedida.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
         comboCapacidad.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
-        fldCant.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
-        fieldPesoKg.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
+        spinnerCant.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
+        spinnerPeso.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
         fldTamano.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
+        fieldPrecio.setEnabled(estado.enModoAgregar() && !estado.enModoBusqueda());
     }
 
     private Producto capturarRegistro() {
@@ -128,16 +133,17 @@ public class VentanaInventario extends javax.swing.JFrame {
                     fldcodigo.getText(),
                     fldname.getText(),
                     fldmedida.getText(),
-                    comboCapacidad.getSelectedIndex(),
-                    Integer.parseInt(fldCant.getText())
-            );
+                    Double.parseDouble(fieldPrecio.getText()),
+                    comboCapacidad.getSelectedIndex(), 
+                    (int) spinnerCant.getValue());
         }
         return new Material(
                 fldcodigo.getText(),
                 fldname.getText(),
                 fldmedida.getText(),
+                Double.parseDouble(fieldPrecio.getText()),
                 fldTamano.getText(),
-                Double.parseDouble(fieldPesoKg.getText())
+               (double) spinnerPeso.getValue()
         );
     }
 
@@ -147,8 +153,9 @@ public class VentanaInventario extends javax.swing.JFrame {
                 fldcodigo.getText(),
                 fldname.getText(),
                 fldmedida.getText(),
+                Double.parseDouble(fieldPrecio.getText()),
                 comboCapacidad.getSelectedIndex(),
-                Integer.parseInt(fldCant.getText())
+                (int) spinnerCant.getValue()
         );
         return r;
     }
@@ -159,8 +166,9 @@ public class VentanaInventario extends javax.swing.JFrame {
                 fldcodigo.getText(),
                 fldname.getText(),
                 fldmedida.getText(),
+                Double.parseDouble(fieldPrecio.getText()),
                 fldTamano.getText(),
-                Double.parseDouble(fieldPesoKg.getText())
+                (double) spinnerPeso.getValue()
         );
         return r;
     }
@@ -181,7 +189,7 @@ public class VentanaInventario extends javax.swing.JFrame {
             r.setNombre(fldname.getText());
             r.setMedida(fldmedida.getText());
             r.setTamano(fldTamano.getText());
-            r.setPesoKg(Double.parseDouble(fieldPesoKg.getText()));
+            r.setPesoKg((double)spinnerPeso.getValue());
         }
         return r;
     }
@@ -192,7 +200,7 @@ public class VentanaInventario extends javax.swing.JFrame {
             r.setNombre(fldname.getText());
             r.setMedida(fldmedida.getText());
             r.setCapacidad(comboCapacidad.getSelectedIndex());
-            r.setCantidadUnidades(Integer.parseInt(fldCant.getText()));
+            r.setCantidadUnidades((int) spinnerCant.getValue());
         }
         return r;
     }
@@ -209,14 +217,13 @@ public class VentanaInventario extends javax.swing.JFrame {
         lblMedida = new javax.swing.JLabel();
         lblCapacidad = new javax.swing.JLabel();
         lblCant = new javax.swing.JLabel();
-        lblKg = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnHerramientas = new javax.swing.JRadioButton();
         btnMateriales = new javax.swing.JRadioButton();
         fldname = new javax.swing.JTextField();
         fldcodigo = new javax.swing.JTextField();
         fldmedida = new javax.swing.JTextField();
-        fieldPesoKg = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -227,9 +234,12 @@ public class VentanaInventario extends javax.swing.JFrame {
         fldTamano = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         comboCapacidad = new javax.swing.JComboBox<>();
-        fldCant = new javax.swing.JTextField();
         barraEstado = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        lblKg = new javax.swing.JLabel();
+        fieldPrecio = new javax.swing.JTextField();
+        spinnerCant = new javax.swing.JSpinner();
+        spinnerPeso = new javax.swing.JSpinner();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         cerrarApp = new javax.swing.JMenuItem();
@@ -295,14 +305,14 @@ public class VentanaInventario extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(4, 7, 4, 0);
         getContentPane().add(lblCant, gridBagConstraints);
 
-        lblKg.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        lblKg.setText("Peso en kg");
+        lblPrecio.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPrecio.setText("Precio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 7, 4, 0);
-        getContentPane().add(lblKg, gridBagConstraints);
+        getContentPane().add(lblPrecio, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
         jLabel1.setText("Producto");
@@ -356,12 +366,6 @@ public class VentanaInventario extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
         getContentPane().add(fldmedida, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
-        getContentPane().add(fieldPesoKg, gridBagConstraints);
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -423,7 +427,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 7);
         getContentPane().add(btnEjecutar, gridBagConstraints);
@@ -436,7 +440,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 7);
         getContentPane().add(btnCancelar, gridBagConstraints);
@@ -477,12 +481,6 @@ public class VentanaInventario extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
         getContentPane().add(comboCapacidad, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
-        getContentPane().add(fldCant, gridBagConstraints);
 
         barraEstado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         barraEstado.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -493,12 +491,43 @@ public class VentanaInventario extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
         getContentPane().add(barraEstado, gridBagConstraints);
+
+        lblKg.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblKg.setText("Peso en kg");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(4, 7, 4, 0);
+        getContentPane().add(lblKg, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
+        getContentPane().add(fieldPrecio, gridBagConstraints);
+
+        spinnerCant.setModel(new javax.swing.SpinnerNumberModel(0, null, 50, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
+        getContentPane().add(spinnerCant, gridBagConstraints);
+
+        spinnerPeso.setModel(new javax.swing.SpinnerNumberModel(0.5d, 0.5d, 20.0d, 0.5d));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 0);
+        getContentPane().add(spinnerPeso, gridBagConstraints);
 
         jMenu1.setText("Archivo");
 
@@ -707,8 +736,7 @@ private VentanaTabla inventario;
     private javax.swing.ButtonGroup btnProducto;
     private javax.swing.JMenuItem cerrarApp;
     private javax.swing.JComboBox<String> comboCapacidad;
-    private javax.swing.JTextField fieldPesoKg;
-    private javax.swing.JTextField fldCant;
+    private javax.swing.JTextField fieldPrecio;
     private javax.swing.JTextField fldTamano;
     private javax.swing.JTextField fldcodigo;
     private javax.swing.JTextField fldmedida;
@@ -726,6 +754,9 @@ private VentanaTabla inventario;
     private javax.swing.JLabel lblKg;
     private javax.swing.JLabel lblMedida;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JSpinner spinnerCant;
+    private javax.swing.JSpinner spinnerPeso;
     private javax.swing.JMenuItem tablaInventario;
     // End of variables declaration//GEN-END:variables
 }

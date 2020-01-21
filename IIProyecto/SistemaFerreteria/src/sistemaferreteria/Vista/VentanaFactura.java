@@ -25,11 +25,12 @@ public class VentanaFactura extends javax.swing.JFrame {
     public void init() {
         setVisible(true);
         actualizar();
-
     }
+    
+    
 
     public void actualizar() {
-
+       // System.out.println(spinnerCant.getValue());
     }
 
     @SuppressWarnings("unchecked")
@@ -54,7 +55,7 @@ public class VentanaFactura extends javax.swing.JFrame {
         spinnerCant = new javax.swing.JSpinner();
         spinnerPeso = new javax.swing.JSpinner();
         campoPrecio = new javax.swing.JTextField();
-        PanelEtiqueta = new javax.swing.JPanel();
+        barraEstado = new javax.swing.JPanel();
         lblEtiqueta = new javax.swing.JLabel();
         btnNuevo = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
@@ -221,12 +222,11 @@ public class VentanaFactura extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(campoPrecio, gridBagConstraints);
 
-        PanelEtiqueta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        barraEstado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblEtiqueta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        lblEtiqueta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblEtiqueta.setText("Código de factura: ");
-        PanelEtiqueta.add(lblEtiqueta);
+        barraEstado.add(lblEtiqueta);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -235,7 +235,7 @@ public class VentanaFactura extends javax.swing.JFrame {
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 0);
-        getContentPane().add(PanelEtiqueta, gridBagConstraints);
+        getContentPane().add(barraEstado, gridBagConstraints);
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -299,7 +299,7 @@ public class VentanaFactura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
+        actualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -351,7 +351,7 @@ public class VentanaFactura extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelEtiqueta;
+    private javax.swing.JPanel barraEstado;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;

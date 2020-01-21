@@ -21,6 +21,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         super(titulo);
         this.gestor=gestor;
         this.inventario= new VentanaInventario("Inventario", this.gestor);
+        this.factura= new VentanaFactura("Factura", this.gestor);
         configurar();
     }
     
@@ -47,6 +48,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         salirMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         inventarioItem = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        facturacionItem = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -69,7 +72,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Inventario");
 
         inventarioItem.setText("Inventario");
         inventarioItem.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +83,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu2.add(inventarioItem);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Facturación");
+
+        facturacionItem.setText("Facturación");
+        facturacionItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                facturacionItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(facturacionItem);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -110,6 +125,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void cerrarVentana(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_cerrarVentana
          gestor.cerrarAplicacion();
     }//GEN-LAST:event_cerrarVentana
+
+    private void facturacionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturacionItemActionPerformed
+        factura.init();
+    }//GEN-LAST:event_facturacionItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,10 +165,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
     }
     VentanaInventario inventario;
+    VentanaFactura factura;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem facturacionItem;
     private javax.swing.JMenuItem inventarioItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem salirMenuItem;

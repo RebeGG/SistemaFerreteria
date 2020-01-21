@@ -18,15 +18,17 @@ import java.io.Serializable;
 public abstract class Producto implements Serializable{
     
     private String codigo, nombre, medida;
+    private double precio;
     
-    public Producto(String codigo, String nombre, String medida) {
+    public Producto(String codigo, String nombre, String medida, double precio) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.medida = medida;
+        this.precio = precio;
     }
 
     public Producto(){
-        this("","","");
+        this("","","",0.0);
     }
     
     public String getNombre() {
@@ -53,10 +55,18 @@ public abstract class Producto implements Serializable{
         this.codigo = codigo;
     }
     
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+    
     public abstract Object[] toArray();
     
     public static int getFieldCount(){
-        return 5;
+        return 6;
     }
     
     @Override

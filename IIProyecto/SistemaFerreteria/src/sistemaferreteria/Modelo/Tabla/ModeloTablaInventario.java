@@ -60,7 +60,7 @@ public class ModeloTablaInventario extends AbstractTableModel {
     }
 
     private static final Class<?>[] CLASE_COLUMNA = {
-        String.class, String.class, String.class, Integer.class, Double.class,
+        String.class, String.class, String.class, Integer.class, Double.class, Double.class
     };
     
 }

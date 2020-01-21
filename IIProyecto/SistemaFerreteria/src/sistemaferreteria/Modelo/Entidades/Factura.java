@@ -1,5 +1,7 @@
 package sistemaferreteria.Modelo.Entidades;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -18,28 +20,28 @@ import java.util.Date;
 
 public class Factura {
     
-    private String nombre;
-    private Date fecha;//could change
-    private List<Producto> productos; 
+    private int numero;
+    private Date fecha;
+    private List<Detalle> productos;
     private double total;
 
-    public Factura(String nombre, Date fecha) {
-        this.nombre = nombre;
-        this.fecha = fecha;
+    public Factura(int numero, Date fecha) {
+        this.numero = numero;
+        this.fecha = new Date();
         this.productos = new ArrayList<>();
         this.total = 0;
     }
     
     public Factura(){
-        this("", null);
+        this(0, null);
     }
 
-    public String getNombre() {
-        return nombre;
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public Date getFecha() {
@@ -50,11 +52,11 @@ public class Factura {
         this.fecha = fecha;
     }
 
-    public List<Producto> getProductos() {
+    public List<Detalle> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Producto> productos) {
+    public void setProductos(List<Detalle> productos) {
         this.productos = productos;
     }
 
@@ -66,32 +68,45 @@ public class Factura {
         this.total = total;
     }
     
-    public void agregarProducto(Producto p){
-        if(p.getClass().equals(Herramienta.class)){
-            Herramienta h = (Herramienta) p;
-            if(productos.contains(p)){
-                h.setCantidadUnidades(h.getCantidadUnidades()+1);
-                productos.set(productos.indexOf(p), h);
+    public void agregarDetalle(Detalle d){
+        boolean bandera = false;
+        if(d != null){
+            for(Detalle detalle : productos){
+                if(detalle.getProducto().getCodigo().equals(d.getProducto().getCodigo())){
+                    bandera = true;
+                    if(detalle.getProducto().getClass().equals(Herramienta.class)){
+                        Herramienta productoH = (Herramienta) detalle.getProducto();
+                        Herramienta h = (Herramienta) d.getProducto();
+                        productoH.setCantidadUnidades(productoH.getCantidadUnidades() + h.getCantidadUnidades());
+                        detalle.setProducto(productoH);
+                        break;
+                    }
+                    else{
+                        Material productoM = (Material) detalle.getProducto();
+                        Material m = (Material) d.getProducto();
+                        productoM.setPesoKg(productoM.getPesoKg() + m.getPesoKg());
+                        detalle.setProducto(productoM);
+                        break;
+                    }
+                }
             }
-            else{
-                productos.add(p);
-            }
-        }
-        else{
-            Material m = (Material) p;
-            if(productos.contains(p)){
-                m.setPesoKg(m.getPesoKg() + 1);//mmmm no creo, revisar
-                productos.set(productos.indexOf(p), m);
-            }
-            else{
-                productos.add(p);
+            if(!bandera){
+                productos.add(d);
             }
         }
     }
     
-    public void eliminarProducto(Producto p) throws Exception{
-        if(productos.contains(p)){
-            productos.remove(p);
+    public double calcularTotal(){
+        double total = 0.0;
+        for(Detalle d : productos){
+            total = total + d.getPrecio_total();
+        }
+        return total;
+    }
+    
+    public void eliminarDetalle(Detalle d) throws Exception{
+        if(productos.contains(d)){
+            productos.remove(d);
         }else{
             throw new Exception("Producto no existe en la factura.");
         }
@@ -105,20 +120,22 @@ public class Factura {
         }
     }
     
-    public Producto obtener(Producto p){
-        if(productos.contains(p)){
-            return productos.get(productos.indexOf(p));
+    public Detalle obtener(Detalle d){
+        if(productos.contains(d)){
+            return productos.get(productos.indexOf(d));
         }
         return null;
     }
     
     @Override
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        s.append(String.format("Nombre: %s%n", getNombre()));
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        StringBuilder s = new StringBuilder("---------------- FERRETERÍA ---------------\n");
+        s.append(String.format("Número de Factura: %s%n", getNumero()));
+        s.append(String.format("Fecha: %s%n", df.format(getFecha())));
         s.append("Produtos.................................");
-        for(Producto p: productos){
-            s.append(String.format("%s%n", p.toString()));
+        for(Detalle d: productos){
+            s.append(String.format("%s%n", d.toString()));
         }
         s.append(".........................................");
         return s.toString();

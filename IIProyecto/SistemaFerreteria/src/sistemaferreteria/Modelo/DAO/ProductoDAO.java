@@ -132,6 +132,7 @@ public class ProductoDAO {
                         rs.getString("codigo"),
                         rs.getString("nombre"),
                         rs.getString("medida"),
+                        rs.getDouble("precio"),
                         rs.getInt("capacidad"),
                         rs.getInt("cantidadUnidades")
                     ));
@@ -148,6 +149,7 @@ public class ProductoDAO {
                         rs.getString("codigo"),
                         rs.getString("nombre"),
                         rs.getString("medida"),
+                        rs.getDouble("precio"),
                         rs.getString("tamano"),
                         rs.getDouble("pesoKg")
                     ));
@@ -170,6 +172,7 @@ public class ProductoDAO {
                             rs.getString("codigo"),
                             rs.getString("nombre"),
                             rs.getString("medida"),
+                            rs.getDouble("precio"),
                             rs.getInt("capacidad"),
                             rs.getInt("cantidadUnidades")
                         ));
@@ -192,8 +195,10 @@ public class ProductoDAO {
                             rs.getString("codigo"),
                             rs.getString("nombre"),
                             rs.getString("medida"),
+                            rs.getDouble("precio"),
                             rs.getString("tamano"),
                             rs.getDouble("pesoKg")
+                            
                         ));
                     }
                 }

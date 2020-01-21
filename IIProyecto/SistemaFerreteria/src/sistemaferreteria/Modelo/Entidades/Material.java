@@ -19,14 +19,14 @@ public class Material extends Producto implements Serializable{
     private String tamano; 
     private double pesoKg;
     
-    public Material(String codigo, String nombre, String medida, String tamano, double pesoKg) {
-        super(codigo, nombre, medida);
+    public Material(String codigo, String nombre, String medida, double precio, String tamano, double pesoKg) {
+        super(codigo, nombre, medida, precio);
         this.tamano = tamano;
         this.pesoKg = pesoKg;
     }
     
     public Material(){
-        this("","","","",0.0);
+        this("","","",0.0,"",0.0);
     }
 
     public String getTamano() {
@@ -47,17 +47,18 @@ public class Material extends Producto implements Serializable{
     
     @Override
     public String toString(){
-        return String.format("%s, %s, %s, %s, %f", getCodigo(), getNombre(), getMedida(), getTamano(), getPesoKg());
+        return String.format("%s, %s, %s, %f, %s, %f", getCodigo(), getNombre(), getMedida(), getPrecio(), getTamano(), getPesoKg());
     }
     
     @Override
     public Object[] toArray() {
-        Object[] r = new Object[7];
+        Object[] r = new Object[6];
         r[0] = getCodigo();
         r[1] = getNombre();
         r[2] = getMedida();
         r[3] = "-";
         r[4] = getTamano();
+        r[5] = getPrecio();
         return r;
     }       
 }

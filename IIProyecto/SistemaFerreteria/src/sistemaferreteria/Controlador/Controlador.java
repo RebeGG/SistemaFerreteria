@@ -1,13 +1,6 @@
 package sistemaferreteria.Controlador;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Observer;
-import java.util.Scanner;
-import sistemaferreteria.Modelo.DAO.ProductoDAO;
-import sistemaferreteria.Modelo.Entidades.Herramienta;
-import sistemaferreteria.Modelo.Entidades.Inventario;
-import sistemaferreteria.Modelo.Entidades.Material;
 import sistemaferreteria.Modelo.Entidades.Producto;
 import sistemaferreteria.Modelo.Modelo;
 
@@ -26,7 +19,6 @@ import sistemaferreteria.Modelo.Modelo;
 public class Controlador {
     
     private Modelo datos;
-    private ProductoDAO pd;
     
     public Controlador() {
         this(new Modelo());
@@ -34,7 +26,6 @@ public class Controlador {
 
     public Controlador(Modelo datos) {
         this.datos = datos;
-        this.pd = null;
     }
 
     public Modelo getDatos() {
@@ -65,118 +56,75 @@ public class Controlador {
     
     
     //Métodos Administración de Inventario
-    //lista todo el inventario
-    public void listarInventario() throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setInventario(pd.listar());
-        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
-    }
+//    //lista todo el inventario
+//    public void listarInventario() throws Exception{
+//        pd = ProductoDAO.obtenerInstancia();
+//        datos.setInventario(pd.listar());
+//        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
+//    }
     
     //busca según tipo de producto(Material/Herramienta)
     public void listarProductos(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setInventario(pd.listar(p));
+        datos.listarProductos(p);
         datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
      
     //busca según nombre de la Herramienta
     public void listarHerramientas(String nombre) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setInventario(pd.listarHerramienta(nombre));
+        datos.listarHerramientas(nombre);
         datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca según nombre del Material
     public void listarMateriales(String nombre) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setInventario(pd.listarMaterial(nombre));
+        datos.listarMateriales(nombre);
         datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca un Producto específico
     public Producto obtenerProducto(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
         datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
-        return pd.recuperar(p.getCodigo());
+        return datos.obtenerProducto(p);
     }
     
     //agregar un producto
     public boolean agregarProducto(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
         datos.setPromedioAgregar(datos.getPromedioAgregar() + 1);
-        return pd.agregar(p);
-        //datos.agregar(p);////puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que agrego cosas...
+        return datos.agregarProducto(p);
     }
     
     //actualizar un producto
     public boolean actualizarProducto(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
         datos.setPromedioActualizar(datos.getPromedioActualizar() + 1);
-        return pd.actualizar(p);
-        //datos.actualizar(p);//puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que elimino cosas...
+        return datos.actualizarProducto(p);
     }
     
     //eliminar un producto
     public boolean eliminarProducto(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
         datos.setPromedioEliminar(datos.getPromedioEliminar() + 1);
-        return pd.eliminar(p.getCodigo());
-        //datos.eliminar(p);//puede ser, pero no estoy segura, esto solo en caso de que tabla se vea al mismo tiempo que elimino cosas...
+        return datos.eliminarProducto(p);
     }
     
 
     //Métodos Factura
+    //agrega factura
+    public boolean agregarFactura()throws Exception{
+        return datos.agregarFactura();
+    }
+    
     //agrega producto a la factura
-    public void agregarProductoFactura(Producto p)throws Exception{
-        //revisar que exista la cantidad suficiente  y hacer las deducciones correspondientes
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setProducto(pd.recuperar(p.getCodigo()));
-        datos.agregarProductoFactura(p);
-        pd.actualizar(datos.getProducto());
+    public boolean agregarProductoFactura(Producto p)throws Exception{
+        return datos.agregarProducto(p);
     }
     
     //elimina producto de la factura
-    public void eliminarProductoFactura(Producto p) throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        datos.setProducto(pd.recuperar(p.getCodigo()));
-        datos.eliminarProductoFactura(p);
-        pd.actualizar(datos.getProducto());
-    }
-    
-    //elimmina todos los productos de la factura
-    public void borrarProductosFactura() throws Exception{
-        datos.borrarProductosFactura();
+    public boolean eliminarProductoFactura(Producto p) throws Exception{
+        return datos.eliminarProductoFactura(p);
     }
     
     
     //cargar inventario
-    public void cargar() throws Exception{
-        pd = ProductoDAO.obtenerInstancia();
-        Producto producto;
-        Inventario productos = new Inventario();
-        try (Scanner entrada = new Scanner(new FileInputStream("src/Archivos/inventario.txt"));) {
-            entrada.useDelimiter("\t|\r\n");
-            while (entrada.hasNext()){
-                String codigo = entrada.next();
-                String nombre = entrada.next();
-                String medida = entrada.next();
-                if(codigo.charAt(0) == 'H'){
-                    int capacidad = entrada.nextInt();
-                    int cantidadUnidades = entrada.nextInt();
-                    producto = new Herramienta(codigo,nombre,medida,capacidad,cantidadUnidades);
-                }
-                else{
-                    String tamano = entrada.next();
-                    Double pesoKg = entrada.nextDouble();
-                    producto = new Material(codigo,nombre,medida,tamano,pesoKg);
-                }
-                //productos.agregar(producto);
-                pd.agregar(producto);
-            }
-            //System.out.println(productos.toString());
-            entrada.close();
-        } catch (FileNotFoundException ex) {
-            System.err.printf("Excepción: '%s'%n", ex.getMessage());
-        }
+    public void cargar(){
+        datos.cargar();
     }
 }

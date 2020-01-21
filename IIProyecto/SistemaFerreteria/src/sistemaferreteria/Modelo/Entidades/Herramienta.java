@@ -22,14 +22,14 @@ public class Herramienta extends Producto implements Serializable{
     
     private int capacidad, cantidadUnidades;
     
-    public Herramienta(String codigo, String nombre, String medida, int capacidad, int cantidadUnidades) {
-        super(codigo, nombre, medida);
+    public Herramienta(String codigo, String nombre, String medida, double precio, int capacidad, int cantidadUnidades) {
+        super(codigo, nombre, medida, precio);
         this.capacidad = capacidad;
         this.cantidadUnidades = cantidadUnidades;
     }
     
     public Herramienta(){
-        this("","","",0,0);
+        this("","","",0.0,0,0);
     }
 
     public int getCapacidad() {
@@ -50,12 +50,12 @@ public class Herramienta extends Producto implements Serializable{
     
     @Override
     public String toString(){
-        return String.format("%s, %s, %s, %d, %d", getCodigo(), getNombre(), getMedida(), getCapacidad(), getCantidadUnidades());
+        return String.format("%s, %s, %s, %f, %d, %d", getCodigo(), getNombre(), getMedida(), getPrecio(), getCapacidad(), getCantidadUnidades());
     }
 
     @Override
     public Object[] toArray() {
-        Object[] r = new Object[7];
+        Object[] r = new Object[6];
         r[0] = getCodigo();
         r[1] = getNombre();
         r[2] = getMedida();
@@ -71,6 +71,7 @@ public class Herramienta extends Producto implements Serializable{
             }break;
         }
         r[4] = 0.0;
+        r[5] = getPrecio();
         return r;
     }
 

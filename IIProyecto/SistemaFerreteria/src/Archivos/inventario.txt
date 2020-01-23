@@ -1,3 +1,5 @@
+H000	Nada	0	0	0	0.0
+M000	Nada	0	0	0.0	0.0
 H001	Martillo	1"	1	70	2500.0
 M001	Tornillo	1" 1/4	4" 1/2	350.0	70.0
 M002	Clavo	6mm	18mm	500.25	55.0

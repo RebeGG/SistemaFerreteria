@@ -91,7 +91,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
 
     public void actualizarBotones() {
         btnNuevo.setEnabled(estado.puedeAgregar() && !estado.enModoConsulta());
-        btnAgregar.setEnabled(estado.puedeGuardar() && !estado.enModoConsulta() && !estado.puedeBuscar());
+        btnAgregar.setEnabled(estado.puedeGuardar() || estado.enModoConsulta() && !estado.puedeBuscar());
         btnBuscar.setEnabled(estado.puedeBuscar());
         btnCancelar.setEnabled(estado.puedeCancelar());
         btnEjecutar.setEnabled(estado.puedeEjecutar());
@@ -106,16 +106,18 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
             campoCodigo.setText(actual.getCodigo());
             campoNombre.setText(actual.getNombre());
             campoPrecio.setText(Double.toString(actual.getPrecio()));
-            spinnerCant.setValue(actual.getCantidadUnidades());
+            spinnerCant.setValue((int)spinnerCant.getValue());
             spinnerPeso.setEnabled(false);
+            //campoTotal.setText(String.format("%f", modelo.getFactura().getTotal()));
         }
-        if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+        else if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
             Material actual = (Material) estado.getRegistroActual();
             campoCodigo.setText(actual.getCodigo());
             campoNombre.setText(actual.getNombre());
             campoPrecio.setText(Double.toString(actual.getPrecio()));
             spinnerCant.setEnabled(false);
-            spinnerPeso.setValue(actual.getPesoKg());
+            spinnerPeso.setValue((double) spinnerPeso.getValue());
+//            campoTotal.setText(String.format("%f", actual.getPrecio()*(double)spinnerPeso.getValue()));
 
         } else {
             campoCodigo.setText(null);
@@ -123,6 +125,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
             campoPrecio.setText(null);
             spinnerCant.setValue(0);
             spinnerPeso.setValue(0.5);
+            campoTotal.setText("0");
         }
         campoCodigo.setEnabled(estado.enModoBusqueda() || estado.enModoAgregar());
         campoNombre.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda());
@@ -382,7 +385,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         getContentPane().add(campoNombre, gridBagConstraints);
 
-        spinnerCant.setModel(new javax.swing.SpinnerNumberModel(0, 0, 40, 1));
+        spinnerCant.setModel(new javax.swing.SpinnerNumberModel(1, null, 100, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 6;
@@ -530,7 +533,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (estado.enModoActualizacion()) {
+        if (estado.enModoConsulta()) {
             if (btnHerramientas.isSelected()) {
                 Herramienta p = (Herramienta) estado.getRegistroActual();
                 estado.setRegistroActual(p);
@@ -539,7 +542,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaFactura.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
+            } else if (btnMateriales.isSelected()){
                 Material p = (Material) estado.getRegistroActual();
                 estado.setRegistroActual(p);
                 try {
@@ -555,7 +558,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         int option = JOptionPane.showConfirmDialog(null, "¿Ya terminó su facturación?", "", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_CANCEL_OPTION) {
+        if (option == JOptionPane.OK_OPTION) {
             try {
                 gestorPrincipal.agregarFactura();
             } catch (Exception ex) {
@@ -583,7 +586,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         if (estado.enModoBusqueda()) {
             if (btnHerramientas.isSelected()) {
                 Herramienta p = (Herramienta) filtro(1);
-                //estado.setRegistroActual(p);
+                estado.setRegistroActual(p);
                 try {
                     estado.setRegistroActual(gestorPrincipal.obtenerProducto(p));
                     actualizaCamposHerramienta(p);
@@ -592,7 +595,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 }
             } else {
                 Material p = (Material)filtro(2);
-                //estado.setRegistroActual(p);
+                estado.setRegistroActual(p);
                 try {
                     estado.setRegistroActual(gestorPrincipal.obtenerProducto(p));
                 } catch (Exception ex) {
@@ -601,8 +604,9 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 actualizaCamposMateriales(p);
             }
         }
-        //estado.cambiarModoModificar();
-        //actualizar();
+       // estado.enModoActualizacion();
+        estado.cambiarModoConsulta();
+        actualizar();
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     public static void main(String args[]) {

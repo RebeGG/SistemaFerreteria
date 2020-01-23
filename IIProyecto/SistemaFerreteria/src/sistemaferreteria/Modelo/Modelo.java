@@ -52,6 +52,7 @@ public class Modelo extends Observable implements Runnable {
         this.activo = false;
         this.banderaMinuto = 0;
         this.factura = new Factura();
+        factura.setNumero(1);
         this.inventarioM = new ConjuntoMateriales();
         this.inventarioH = new ConjuntoHerramientas();
         this.producto = null;
@@ -246,7 +247,7 @@ public class Modelo extends Observable implements Runnable {
                 setChanged();
                 notifyObservers();
                 setPromedioAgregar(getPromedioAgregar() + 1);
-                return hd.agregar(h);
+                return hd.agregar(h); 
             }
             else{
                 md = MaterialDAO.obtenerInstancia();
@@ -295,12 +296,17 @@ public class Modelo extends Observable implements Runnable {
         fd = FacturaDAO.obtenerInstancia();
         setPromedioAgregar(getPromedioAgregar() + 1);
         boolean resultado = fd.agregar(factura);
+        int numeroAntiguo = factura.getNumero();
+        System.out.println(resultado);
         setFactura(new Factura());
+        factura.setNumero(numeroAntiguo + 1);
+        System.out.println(factura.toString());
         return resultado;
     }
     
     //agrega producto a la factura
     public void agregarProductoFactura(Producto p)throws Exception{
+        System.out.println("entróoo");
         fd = FacturaDAO.obtenerInstancia();
         if(p != null){
             if(p.getClass().equals(Herramienta.class)){
@@ -344,7 +350,11 @@ public class Modelo extends Observable implements Runnable {
         detalle.setProducto(p);
         detalle.setPrecio_total(detalle.calcularTotal());
         factura.agregarDetalle(detalle);
+        System.out.println(factura.toString());
         factura.setTotal(factura.calcularTotal());
+        System.out.println(factura.getTotal());
+        setChanged();
+        notifyObservers();
     }
     
     public void cargar(){

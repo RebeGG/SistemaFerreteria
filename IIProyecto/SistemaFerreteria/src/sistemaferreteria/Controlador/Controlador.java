@@ -111,8 +111,8 @@ public class Controlador {
     }
     
     //agrega producto a la factura
-    public boolean agregarProductoFactura(Producto p)throws Exception{
-        return datos.agregarProducto(p);
+    public void agregarProductoFactura(Producto p)throws Exception{
+        datos.agregarProductoFactura(p);
     }
     
     //cargar inventario

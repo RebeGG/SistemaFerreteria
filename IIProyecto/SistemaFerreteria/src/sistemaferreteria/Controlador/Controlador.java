@@ -117,12 +117,6 @@ public class Controlador {
         return datos.agregarProducto(p);
     }
     
-    //elimina producto de la factura
-    public boolean eliminarProductoFactura(Producto p) throws Exception{
-        return datos.eliminarProductoFactura(p);
-    }
-    
-    
     //cargar inventario
     public void cargar(){
         datos.cargar();

@@ -26,6 +26,8 @@ public class ConjuntoMateriales  extends java.util.Observable implements Seriali
     
     public void setInventario(List<Material> inventario){
         this.inventario = inventario;
+        setChanged();
+        notifyObservers();
     }
 
     public List<Material> getInventario(){

@@ -26,6 +26,8 @@ public class ConjuntoHerramientas extends java.util.Observable implements Serial
     
     public void setInventario(List<Herramienta> inventario){
         this.inventario = inventario;
+        setChanged();
+        notifyObservers();
     }
 
     public List<Herramienta> getInventario(){

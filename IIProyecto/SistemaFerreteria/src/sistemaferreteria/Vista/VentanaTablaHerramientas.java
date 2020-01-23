@@ -43,8 +43,8 @@ public class VentanaTablaHerramientas extends JFrame implements Observer{
         setResizable(true);
         pack();
         setMinimumSize(getSize());
-        setSize(getWidth()*7 / 3, getHeight());
-        setLocationRelativeTo(null);
+        setSize(getWidth()*9 / 5, getHeight());
+        //setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 

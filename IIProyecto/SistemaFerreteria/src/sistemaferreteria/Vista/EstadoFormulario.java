@@ -84,11 +84,6 @@ public class EstadoFormulario {
         return enModoConsulta() && (getRegistroActual() != null);
     }
 
-    public boolean puedeEliminar() {
-        return ((enModoConsulta()) || (enModoActualizacion()))
-                && getRegistroActual() != null;
-    }
-
     public boolean puedeGuardar() {
         return isModificado();
     }

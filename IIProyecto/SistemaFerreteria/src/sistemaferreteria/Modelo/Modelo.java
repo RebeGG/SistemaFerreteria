@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import sistemaferreteria.Modelo.DAO.FacturaDAO;
 import sistemaferreteria.Modelo.DAO.GestorBD;
 import sistemaferreteria.Modelo.DAO.HerramientaDAO;
@@ -17,7 +15,6 @@ import sistemaferreteria.Modelo.Entidades.ConjuntoHerramientas;
 import sistemaferreteria.Modelo.Entidades.ConjuntoMateriales;
 import sistemaferreteria.Modelo.Entidades.Detalle;
 import sistemaferreteria.Modelo.Entidades.Factura;
-import sistemaferreteria.Modelo.Entidades.Inventario;
 import sistemaferreteria.Modelo.Entidades.Producto;
 import sistemaferreteria.Modelo.Entidades.Herramienta;
 import sistemaferreteria.Modelo.Entidades.Material;
@@ -40,7 +37,6 @@ public class Modelo extends Observable implements Runnable {
     private int banderaMinuto;
     private int promedioAgregar;
     private int promedioActualizar;
-    private int promedioEliminar;
     private int promedioConsultar;
     private ConjuntoHerramientas inventarioH;
     private ConjuntoMateriales inventarioM;
@@ -62,7 +58,6 @@ public class Modelo extends Observable implements Runnable {
         this.promedioAgregar = 0;
         this.promedioActualizar = 0;
         this.promedioConsultar = 0;
-        this.promedioEliminar = 0;
         this.hd = null;
         this.md = null;
         this.fd = null;
@@ -148,18 +143,9 @@ public class Modelo extends Observable implements Runnable {
         this.promedioConsultar = consultar;
     }
     
-    public int getPromedioEliminar() {
-        return promedioEliminar;
-    }
-    
-    public void setPromedioEliminar(int eliminar) {
-        this.promedioEliminar = eliminar;
-    }
-    
     public ConjuntoMateriales obtenerModeloTablaM() {
         return inventarioM.obtenerModelo();
     }
-    
     
     public ConjuntoHerramientas obtenerModeloTablaH() {
         return inventarioH.obtenerModelo();
@@ -183,7 +169,6 @@ public class Modelo extends Observable implements Runnable {
                 setPromedioAgregar(0);
                 setPromedioActualizar(0);
                 setPromedioConsultar(0);
-                setPromedioEliminar(0);
                 setBanderaMinuto(0);
             }
             try {
@@ -198,7 +183,6 @@ public class Modelo extends Observable implements Runnable {
             setPromedioAgregar(promedioAgregar);
             setPromedioActualizar(promedioActualizar);
             setPromedioConsultar(promedioConsultar);
-            setPromedioEliminar(promedioEliminar);
             setChanged();
             notifyObservers();
         }

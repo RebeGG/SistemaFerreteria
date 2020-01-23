@@ -42,8 +42,6 @@ public class MaterialDAO {
     private static final String CMD_ACTUALIZAR
             = "UPDATE material SET nombre=?, medida=?, tamano=?, pesoKg=?, precio=? "
             + "WHERE codigo=?; ";
-    private static final String CMD_ELIMINAR
-            = "DELETE FROM material WHERE codigo=?; ";
     
     private MaterialDAO() {
         this.cfg = new Properties();
@@ -174,24 +172,6 @@ public class MaterialDAO {
         }
 
         return exito;
-    }
-
-    public boolean eliminar(String codigo) throws SQLException {
-        boolean exito = false;
-
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_ELIMINAR)) {
-            stm.clearParameters();
-            stm.setString(1, codigo);
-
-            exito = stm.executeUpdate() == 1;
-        }
-
-        return exito;
-    }
-
-    public MaterialDAO eliminarTodos() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

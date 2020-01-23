@@ -43,8 +43,6 @@ public class HerramientaDAO {
     private static final String CMD_ACTUALIZAR
             = "UPDATE herramienta SET nombre=?, medida=?, capacidad=?, cantidadUnidades=?, precio=? "
             + "WHERE codigo=?; ";
-    private static final String CMD_ELIMINAR
-            = "DELETE FROM herramienta WHERE codigo=?; ";
     
     private HerramientaDAO() {
         this.cfg = new Properties();
@@ -175,24 +173,6 @@ public class HerramientaDAO {
         }
 
         return exito;
-    }
-
-    public boolean eliminar(String codigo) throws SQLException {
-        boolean exito = false;
-
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_ELIMINAR)) {
-            stm.clearParameters();
-            stm.setString(1, codigo);
-
-            exito = stm.executeUpdate() == 1;
-        }
-
-        return exito;
-    }
-
-    public HerramientaDAO eliminarTodos() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

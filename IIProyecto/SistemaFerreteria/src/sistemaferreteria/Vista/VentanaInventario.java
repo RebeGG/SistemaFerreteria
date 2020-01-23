@@ -91,7 +91,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     }
 
     public void actualizarCampos() {
-        if (btnHerramientas.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+        if (btnHerramientas.isSelected() && (estado.enModoBusqueda()) && (estado.getRegistroActual() != null)) {
             Herramienta actual = (Herramienta) estado.getRegistroActual();
             fldcodigo.setText(actual.getCodigo());
             fldname.setText(actual.getNombre());
@@ -103,7 +103,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
             fieldPrecio.setText(Double.toString(actual.getPrecio()));
 
         }
-        if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+        if (btnMateriales.isSelected() && (estado.enModoBusqueda()) && (estado.getRegistroActual() != null)) {
             Material actual = (Material) estado.getRegistroActual();
             fldcodigo.setText(actual.getCodigo());
             fldname.setText(actual.getNombre());
@@ -155,12 +155,18 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     }
 
     private Herramienta capturarRegistroHerramienta() {
+        double precio;
+        if (fieldPrecio.getText().isEmpty()){
+            precio =0;
+        }else {
+            precio =Double.parseDouble(fieldPrecio.getText());
+        }
         Herramienta r;
         r = new Herramienta(
                 fldcodigo.getText(),
                 fldname.getText(),
                 fldmedida.getText(),
-                Double.parseDouble(fieldPrecio.getText()),
+                precio,
                 comboCapacidad.getSelectedIndex(),
                 (int) spinnerCant.getValue()
         );
@@ -168,12 +174,18 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     }
 
     private Material capturarRegistroMaterial() {
+         double precio;
+        if (fieldPrecio.getText().isEmpty()){
+            precio =0;
+        }else {
+            precio =Double.parseDouble(fieldPrecio.getText());
+        }
         Material r;
         r = new Material(
                 fldcodigo.getText(),
                 fldname.getText(),
                 fldmedida.getText(),
-                Double.parseDouble(fieldPrecio.getText()),
+                precio,
                 fldTamano.getText(),
                 (double) spinnerPeso.getValue()
         );
@@ -240,6 +252,20 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private Herramienta filtroHerramienta(int opcion){
         String nombre;
         Herramienta p = new Herramienta();
+        switch(opcion){
+            case 1:
+                return p;
+            case 2:
+                nombre = fldname.getText();
+                p.setNombre(nombre);
+                break;
+        }
+        return p;
+    }
+    
+        private Material filtroMaterial(int opcion){
+        String nombre;
+        Material p = new Material();
         switch(opcion){
             case 1:
                 return p;
@@ -643,7 +669,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         estado.cambiarModoBuscar();
-        inventario.init();
         actualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -698,10 +723,11 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         if (estado.enModoBusqueda()) {
             if (btnHerramientas.isSelected() && fldname.getText().isEmpty()) {
-                Herramienta h = filtroHerramienta(1);
+                Herramienta h = (Herramienta)capturarRegistroHerramienta(); 
                 estado.setRegistroActual(h);
                 try {
                     gestorPrincipal.listarProductos(h);
+                     estado.setRegistroActual(h);
                     System.out.println("Entro al filtro 1");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
@@ -709,12 +735,13 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                     System.out.println("I cant name");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                Herramienta h = filtroHerramienta(2);
-                 estado.setRegistroActual(h);
+            } else if (btnHerramientas.isSelected() && !fldname.getText().isEmpty()) {
+                Herramienta h = (Herramienta)capturarRegistroHerramienta(); 
+                estado.setRegistroActual(h);
                 try {
                     gestorPrincipal.listarHerramientas(fldname.getText());
-                     System.out.println("Entro al filtro 2");
+                    estado.setRegistroActual(h);
+                    System.out.println("Entro al filtro 2");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
                 } catch (Exception ex) {
@@ -723,10 +750,11 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 }
             }
             if (btnMateriales.isSelected() && fldname.getText().isEmpty()) {
-                Producto p = filtro(3);
+                Material p = (Material) capturarRegistroMaterial();
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.listarProductos(p);
+                    estado.setRegistroActual(p);
                      System.out.println("Entro al filtro 3");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
@@ -734,11 +762,12 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                     System.out.println("I cant nameM");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                Producto p = filtro(4);
+            } else if (btnMateriales.isSelected() && !fldname.getText().isEmpty()){
+                Material p = (Material) capturarRegistroMaterial();
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.listarMateriales(fldname.getText());
+                     estado.setRegistroActual(p);
                      System.out.println("Entro al filtro 4");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);

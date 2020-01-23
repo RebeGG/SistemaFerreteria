@@ -40,8 +40,12 @@ public class Controlador {
         datos.addObserver(obs);
     }
     
-    public void registrarTabla(Observer obs) {
-        datos.obtenerModeloTabla().addObserver(obs);
+    public void registrarTablaH(Observer obs) {
+        datos.obtenerModeloTablaH().addObserver(obs);
+    }
+    
+        public void registrarTablaM(Observer obs) {
+        datos.obtenerModeloTablaM().addObserver(obs);
     }
 
     public void suprimir(Observer actual) {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemaferreteria.Vista;
 
 import java.awt.BorderLayout;
@@ -15,22 +10,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 import sistemaferreteria.Controlador.Controlador;
-import sistemaferreteria.Modelo.Tabla.ModeloColumnas;
-import sistemaferreteria.Modelo.Tabla.ModeloTablaInventario;
-import sistemaferreteria.Vista.Tabla.TablaInventario;
+import sistemaferreteria.Modelo.Tabla.Material.ModeloTablaInventarioM;
+import sistemaferreteria.Modelo.Tabla.Material.ModeloColumnasM;
+import sistemaferreteria.Vista.Tabla.Material.TablaInventarioMateriales;
 
-/**
- *
- * @author Fernanda
- */
-public class VentanaTabla extends JFrame implements Observer{
-    
+//  Universidad Nacional
+//  Facultad de Ciencias Exactas y Naturales
+//  Escuela de Informática
+//  
+//         II Proyecto
+//  (VentanaTablaMateriales)
+//
+//  Autores: Rebecca Garita Gutiérrez
+//           María Fernanda González Arias
+//
+//  III Ciclo 2019
+
+public class VentanaTablaMateriales extends JFrame implements Observer{
     private Controlador controlador;
     private JPanel panelPrincipal;
     private JScrollPane controlDesplazamientoTabla;
-    private TablaInventario tablaInventario;
+    private TablaInventarioMateriales tablaInventario;
 
-    public VentanaTabla(String titulo, Controlador nuevoGestor) {
+    public VentanaTablaMateriales(String titulo, Controlador nuevoGestor) {
         super(titulo);
         this.controlador = nuevoGestor;
         configurar();
@@ -54,9 +56,9 @@ public class VentanaTabla extends JFrame implements Observer{
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
         controlDesplazamientoTabla = new JScrollPane(
-                tablaInventario = new TablaInventario(
-                        new ModeloTablaInventario(controlador.getDatos().obtenerModeloTabla()),
-                        new ModeloColumnas())
+                tablaInventario = new TablaInventarioMateriales(
+                        new ModeloTablaInventarioM(controlador.getDatos().obtenerModeloTablaM()),
+                        new ModeloColumnasM())
         );
 
         panelPrincipal.add(BorderLayout.CENTER, controlDesplazamientoTabla);
@@ -65,7 +67,7 @@ public class VentanaTabla extends JFrame implements Observer{
     }
 
     public void init() {
-        controlador.registrarTabla(this);
+        controlador.registrarTablaM(this);
         setVisible(true);
     }
 
@@ -73,5 +75,4 @@ public class VentanaTabla extends JFrame implements Observer{
     public void update(Observable m, Object evt) {
         tablaInventario.actualizar();
     }
-    
 }

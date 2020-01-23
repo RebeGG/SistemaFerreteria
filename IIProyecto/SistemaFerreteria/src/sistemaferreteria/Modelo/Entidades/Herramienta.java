@@ -19,6 +19,10 @@ public class Herramienta extends Producto implements Serializable{
     private static final int LIVIANO = 1;
     private static final int MEDIANO = 2;
     private static final int PESADO = 3;
+
+    public static int getFieldCount() {
+        return 6;
+    }
     
     private int capacidad, cantidadUnidades;
     
@@ -70,11 +74,9 @@ public class Herramienta extends Producto implements Serializable{
                 r[3] = "Pesado";
             }break;
         }
-        r[4] = 0.0;
         r[5] = getPrecio();
         r[6] = getCantidadUnidades();
-        r[7] = 0.0;
         return r;
     }
-
+    
 }

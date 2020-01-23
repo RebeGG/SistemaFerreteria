@@ -56,11 +56,14 @@ public class Material extends Producto implements Serializable{
         r[0] = getCodigo();
         r[1] = getNombre();
         r[2] = getMedida();
-        r[3] = "-";
-        r[4] = getTamano();
-        r[5] = getPrecio();
-        r[6] = 0;
-        r[7] = getPesoKg();
+        r[3] = getTamano();
+        r[4] = getPrecio();
+        r[5] = getPesoKg();
+
         return r;
-    }       
+    }
+    
+    public static int getFieldCount(){
+        return 6;
+    }
 }

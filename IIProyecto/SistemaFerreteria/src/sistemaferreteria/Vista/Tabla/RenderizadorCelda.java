@@ -41,7 +41,7 @@ public class RenderizadorCelda extends DefaultTableCellRenderer{
     public static final DefaultTableCellRenderer DEFAULT_RENDERER
             = new DefaultTableCellRenderer();
 
-    protected static final Color COLOR_FILA_PAR = new Color(218, 209, 237);
-    protected static final Color COLOR_FILA_IMPAR = new Color(255, 255, 255);
+    public static final Color COLOR_FILA_PAR = new Color(218, 209, 237);
+    public static final Color COLOR_FILA_IMPAR = new Color(255, 255, 255);
     protected static final Color COLOR_FILA_SELECCIONADA = new Color(255, 237, 196);
 }

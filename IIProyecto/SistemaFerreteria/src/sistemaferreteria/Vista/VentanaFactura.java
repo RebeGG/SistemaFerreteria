@@ -95,7 +95,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         btnBuscar.setEnabled(estado.puedeBuscar());
         btnCancelar.setEnabled(estado.puedeCancelar());
         btnEjecutar.setEnabled(estado.puedeEjecutar());
-        btnGuardar.setEnabled(estado.puedeEjecutar() && estado.puedeAgregar());
+        btnGuardar.setEnabled(estado.puedeEjecutar() || estado.puedeAgregar());
         btnHerramientas.setEnabled(estado.enModoAgregar() || estado.enModoBusqueda());
         btnMateriales.setEnabled(estado.enModoAgregar() || estado.enModoBusqueda());
     }
@@ -226,6 +226,9 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         campoPrecio = new javax.swing.JTextField();
         barraEstado = new javax.swing.JPanel();
         lblEtiqueta = new javax.swing.JLabel();
+        lblConsulta = new javax.swing.JLabel();
+        lblEtiqueta1 = new javax.swing.JLabel();
+        lblAgregar = new javax.swing.JLabel();
         btnNuevo = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -402,10 +405,34 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         getContentPane().add(campoPrecio, gridBagConstraints);
 
         barraEstado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        barraEstado.setLayout(new java.awt.GridBagLayout());
 
         lblEtiqueta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        lblEtiqueta.setText("Promedio");
-        barraEstado.add(lblEtiqueta);
+        lblEtiqueta.setText("Promedio Consulta");
+        barraEstado.add(lblEtiqueta, new java.awt.GridBagConstraints());
+
+        lblConsulta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        barraEstado.add(lblConsulta, gridBagConstraints);
+
+        lblEtiqueta1.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblEtiqueta1.setText("Promedio Agregar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        barraEstado.add(lblEtiqueta1, gridBagConstraints);
+
+        lblAgregar.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        barraEstado.add(lblAgregar, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -625,9 +652,12 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField campoPrecio;
     private javax.swing.JTextField campoTotal;
     private javax.swing.ButtonGroup groupProducto;
+    private javax.swing.JLabel lblAgregar;
     private javax.swing.JLabel lblCant;
     private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblConsulta;
     private javax.swing.JLabel lblEtiqueta;
+    private javax.swing.JLabel lblEtiqueta1;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPeso;
     private javax.swing.JLabel lblPrecio;
@@ -640,6 +670,8 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        modelo = (Modelo) o;
+        lblConsulta.setText(String.format("%d", modelo.getPromedioConsultar()));
+        lblAgregar.setText(String.format("%d", modelo.getPromedioAgregar()));
     }
 }

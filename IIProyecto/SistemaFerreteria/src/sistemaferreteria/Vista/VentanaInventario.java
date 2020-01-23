@@ -2,6 +2,10 @@ package sistemaferreteria.Vista;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -11,9 +15,9 @@ import sistemaferreteria.Controlador.Controlador;
 import sistemaferreteria.Modelo.Entidades.Herramienta;
 import sistemaferreteria.Modelo.Entidades.Material;
 import sistemaferreteria.Modelo.Entidades.Producto;
-import sistemaferreteria.Vista.Tabla.TablaInventario;
+import sistemaferreteria.Modelo.Modelo;
 
-public class VentanaInventario extends javax.swing.JFrame {
+public class VentanaInventario extends javax.swing.JFrame implements Observer {
 
     private Controlador gestorPrincipal;
     private EstadoFormulario estado;
@@ -61,26 +65,29 @@ public class VentanaInventario extends javax.swing.JFrame {
             estado.setModificado(true);
             actualizarBotones();
         };
+        PropertyChangeListener change = (PropertyChangeEvent e) -> {
+            estado.setModificado(true);
+            actualizarBotones();
+        };
 
         fldcodigo.getDocument().addDocumentListener(docCnt);
         fldname.getDocument().addDocumentListener(docCnt);
         fldmedida.getDocument().addDocumentListener(docCnt);
         comboCapacidad.addItemListener(itemCnt);
-        //fieldPesoKg.getDocument().addDocumentListener(docCnt);
-        //fldCant.getDocument().addDocumentListener(docCnt);
+        spinnerCant.addPropertyChangeListener(change);
+        spinnerPeso.addPropertyChangeListener(change);
         fieldPrecio.getDocument().addDocumentListener(docCnt);
     }
 
     public void actualizarBotones() {
         btnAgregar.setEnabled(estado.puedeAgregar());
         btnModificar.setEnabled(estado.puedeModificar());
-        btnEliminar.setEnabled(estado.puedeEliminar());
         btnGuardar.setEnabled(estado.puedeGuardar());
         btnBuscar.setEnabled(estado.puedeBuscar());
         btnCancelar.setEnabled(estado.puedeCancelar());
         btnEjecutar.setEnabled(estado.puedeEjecutar());
-        btnHerramientas.setEnabled(estado.enModoAgregar()|| estado.enModoBusqueda());
-        btnMateriales.setEnabled(estado.enModoAgregar()|| estado.enModoBusqueda());
+        btnHerramientas.setEnabled(estado.enModoAgregar() || estado.enModoBusqueda());
+        btnMateriales.setEnabled(estado.enModoAgregar() || estado.enModoBusqueda());
     }
 
     public void actualizarCampos() {
@@ -107,7 +114,7 @@ public class VentanaInventario extends javax.swing.JFrame {
             spinnerPeso.setValue(actual.getPesoKg());
             fieldPrecio.setText(Double.toString(actual.getPrecio()));
 
-       } else {
+        } else {
             fldcodigo.setText(null);
             fldname.setText(null);
             fldTamano.setText(null);
@@ -134,7 +141,7 @@ public class VentanaInventario extends javax.swing.JFrame {
                     fldname.getText(),
                     fldmedida.getText(),
                     Double.parseDouble(fieldPrecio.getText()),
-                    comboCapacidad.getSelectedIndex(), 
+                    comboCapacidad.getSelectedIndex(),
                     (int) spinnerCant.getValue());
         }
         return new Material(
@@ -143,7 +150,7 @@ public class VentanaInventario extends javax.swing.JFrame {
                 fldmedida.getText(),
                 Double.parseDouble(fieldPrecio.getText()),
                 fldTamano.getText(),
-               (double) spinnerPeso.getValue()
+                (double) spinnerPeso.getValue()
         );
     }
 
@@ -174,6 +181,7 @@ public class VentanaInventario extends javax.swing.JFrame {
     }
 
     public void init() {
+        gestorPrincipal.registrar(this);
         setVisible(true);
         actualizar();
     }
@@ -189,11 +197,11 @@ public class VentanaInventario extends javax.swing.JFrame {
             r.setNombre(fldname.getText());
             r.setMedida(fldmedida.getText());
             r.setTamano(fldTamano.getText());
-            r.setPesoKg((double)spinnerPeso.getValue());
+            r.setPesoKg((double) spinnerPeso.getValue());
         }
         return r;
     }
-    
+
     private Herramienta actualizarRegistroHerramienta(Herramienta r) {
         if (r != null) {
             r.setCodigo(fldcodigo.getText());
@@ -203,6 +211,30 @@ public class VentanaInventario extends javax.swing.JFrame {
             r.setCantidadUnidades((int) spinnerCant.getValue());
         }
         return r;
+    }
+
+    private Producto filtro(int opcion) {
+        Producto p = null;
+        String nombre;
+        switch (opcion) {
+            case 1:
+                p = new Herramienta();
+                break;
+            case 2:
+                p = new Herramienta();
+                nombre = fldname.getText();
+                p.setNombre(nombre);
+                break;
+            case 3:
+                p = new Material();
+                break;
+            case 4:
+                p = new Material();
+                nombre = fldname.getName();
+                p.setNombre(nombre);
+                break;
+        }
+        return p;
     }
 
     @SuppressWarnings("unchecked")
@@ -226,7 +258,6 @@ public class VentanaInventario extends javax.swing.JFrame {
         fldmedida = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEjecutar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -235,7 +266,12 @@ public class VentanaInventario extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         comboCapacidad = new javax.swing.JComboBox<>();
         barraEstado = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblPromedio1 = new javax.swing.JLabel();
+        lblPromedio2 = new javax.swing.JLabel();
+        lblPromedio3 = new javax.swing.JLabel();
+        lblPromedioConsulta = new javax.swing.JLabel();
+        lblPromedioAgregar = new javax.swing.JLabel();
+        lblPromedioModificar = new javax.swing.JLabel();
         lblKg = new javax.swing.JLabel();
         fieldPrecio = new javax.swing.JTextField();
         spinnerCant = new javax.swing.JSpinner();
@@ -375,7 +411,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 7);
         getContentPane().add(btnBuscar, gridBagConstraints);
@@ -388,23 +424,10 @@ public class VentanaInventario extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 7);
         getContentPane().add(btnAgregar, gridBagConstraints);
-
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 7);
-        getContentPane().add(btnEliminar, gridBagConstraints);
 
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -483,11 +506,63 @@ public class VentanaInventario extends javax.swing.JFrame {
         getContentPane().add(comboCapacidad, gridBagConstraints);
 
         barraEstado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        barraEstado.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        barraEstado.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        jLabel3.setText("Promedio");
-        barraEstado.add(jLabel3);
+        lblPromedio1.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedio1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPromedio1.setText("Promedio Consulta");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 1);
+        barraEstado.add(lblPromedio1, gridBagConstraints);
+
+        lblPromedio2.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedio2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPromedio2.setText("Promedio Agregar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+        barraEstado.add(lblPromedio2, gridBagConstraints);
+
+        lblPromedio3.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedio3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPromedio3.setText("Promedio Modificar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+        barraEstado.add(lblPromedio3, gridBagConstraints);
+
+        lblPromedioConsulta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedioConsulta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+        barraEstado.add(lblPromedioConsulta, gridBagConstraints);
+
+        lblPromedioAgregar.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedioAgregar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+        barraEstado.add(lblPromedioAgregar, gridBagConstraints);
+
+        lblPromedioModificar.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
+        lblPromedioModificar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
+        barraEstado.add(lblPromedioModificar, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -570,21 +645,6 @@ public class VentanaInventario extends javax.swing.JFrame {
         fldname.requestFocusInWindow();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       int option = JOptionPane.showConfirmDialog(null, "¿Desea eliminar este registro?", "Eliminar registro", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_CANCEL_OPTION) {
-           try {
-               Producto p= capturarRegistro();
-               estado.setRegistroActual(gestorPrincipal.eliminarProducto(p));
-           } catch (Exception ex) {
-               Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
-           }
-        }
-        estado.setRegistroActual(null);
-        estado.cambiarModoConsulta();
-        actualizar();
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         estado.cambiarModoModificar();
         actualizar();
@@ -629,38 +689,62 @@ public class VentanaInventario extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Ya existe este producto", "", JOptionPane.OK_OPTION);
         }
-         estado.cambiarModoConsulta();
+        estado.cambiarModoConsulta();
         actualizar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-         if (estado.enModoBusqueda() && btnHerramientas.isSelected()) {
-            Herramienta p = (Herramienta)capturarRegistroHerramienta();
-            estado.setRegistroActual(p);
-             try {
-                 gestorPrincipal.listarHerramientas(fldname.getText());
-                 JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente","BUSQUEDA-FINALIZADA",JOptionPane.PLAIN_MESSAGE);
-                 //actualizaCampos(p);
-             } catch (Exception ex) {
-                 System.out.println("I cant");
-                 Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
-             }
-        } else if (estado.enModoBusqueda() && btnMateriales.isSelected()){
-            Material p = (Material)capturarRegistroMaterial();
-            estado.setRegistroActual(p);
-             try {
-                 gestorPrincipal.listarHerramientas(fldname.getText());
-                 JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente","BUSQUEDA-FINALIZADA",JOptionPane.PLAIN_MESSAGE);
-                 //actualizaCampos(p);
-             } catch (Exception ex) {
-                 System.out.println("I cant");
-                 Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
-             } 
-        }else{
+        if (estado.enModoBusqueda()) {
+            if (btnHerramientas.isSelected() && fldname.getText().isEmpty()) {
+                Producto p = filtro(1);
+                estado.setRegistroActual(p);
+                try {
+                    gestorPrincipal.listarProductos(p);
+                    JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
+                    //actualizaCampos(p);
+                } catch (Exception ex) {
+                    System.out.println("I cant");
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Producto p = filtro(2);
+                estado.setRegistroActual(p);
+                try {
+                    gestorPrincipal.listarHerramientas(fldname.getText());
+                    JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
+                    //actualizaCampos(p);
+                } catch (Exception ex) {
+                    System.out.println("I cant");
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (btnMateriales.isSelected() && fldname.getText().isEmpty()) {
+                Producto p = filtro(3);
+                estado.setRegistroActual(p);
+                try {
+                    gestorPrincipal.listarProductos(p);
+                    JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
+                    //actualizaCampos(p);
+                } catch (Exception ex) {
+                    System.out.println("I cant");
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Producto p = filtro(4);
+                estado.setRegistroActual(p);
+                try {
+                    gestorPrincipal.listarMateriales(fldname.getText());
+                    JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
+                    //actualizaCampos(p);
+                } catch (Exception ex) {
+                    System.out.println("I cant");
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
             System.out.println("bye:C");
             throw new UnsupportedOperationException();
-        } 
-            //Falta buscar solo cuando se selecciona el producto
+        }
         estado.cambiarModoConsulta();
         actualizar();
     }//GEN-LAST:event_btnEjecutarActionPerformed
@@ -683,8 +767,16 @@ public class VentanaInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHerramientasActionPerformed
 
     private void btnMaterialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaterialesActionPerformed
-         actualizar();
+        actualizar();
     }//GEN-LAST:event_btnMaterialesActionPerformed
+
+    @Override
+    public void update(Observable o, Object arg) {
+        modelo = (Modelo) o;
+        lblPromedioConsulta.setText(String.format("%d", modelo.getPromedioConsultar()));
+        lblPromedioAgregar.setText(String.format("%d", modelo.getPromedioAgregar()));
+        lblPromedioModificar.setText(String.format("%d", modelo.getPromedioActualizar()));
+    }
 
     /**
      * @param args the command line arguments
@@ -721,14 +813,14 @@ public class VentanaInventario extends javax.swing.JFrame {
             }
         });
     }
-private VentanaTabla inventario;
+    private VentanaTabla inventario;
+    Modelo modelo = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraEstado;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEjecutar;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JRadioButton btnHerramientas;
     private javax.swing.JRadioButton btnMateriales;
@@ -743,7 +835,6 @@ private VentanaTabla inventario;
     private javax.swing.JTextField fldname;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -755,8 +846,15 @@ private VentanaTabla inventario;
     private javax.swing.JLabel lblMedida;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPrecio;
+    private javax.swing.JLabel lblPromedio1;
+    private javax.swing.JLabel lblPromedio2;
+    private javax.swing.JLabel lblPromedio3;
+    private javax.swing.JLabel lblPromedioAgregar;
+    private javax.swing.JLabel lblPromedioConsulta;
+    private javax.swing.JLabel lblPromedioModificar;
     private javax.swing.JSpinner spinnerCant;
     private javax.swing.JSpinner spinnerPeso;
     private javax.swing.JMenuItem tablaInventario;
     // End of variables declaration//GEN-END:variables
+
 }

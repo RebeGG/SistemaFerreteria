@@ -25,6 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         this.gestor=gestor;
         this.inventario= new VentanaInventario("Inventario", this.gestor);
         this.factura= new VentanaFactura("Factura", this.gestor);
+        this.detalles= new VentanaDetalles("Factura detallada", this.gestor);
         configurar();
     }
     
@@ -132,6 +133,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
     private void facturacionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturacionItemActionPerformed
         factura.init();
+        detalles.init();
     }//GEN-LAST:event_facturacionItemActionPerformed
 
     /**
@@ -177,6 +179,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private Modelo modelo = null;
     private VentanaInventario inventario;
     private VentanaFactura factura;
+    private VentanaDetalles detalles;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem facturacionItem;
     private javax.swing.JMenuItem inventarioItem;

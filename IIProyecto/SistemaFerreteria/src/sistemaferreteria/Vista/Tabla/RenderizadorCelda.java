@@ -1,13 +1,12 @@
 package sistemaferreteria.Vista.Tabla;
 
-//  Universidad Nacional
-
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+//  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
 //  

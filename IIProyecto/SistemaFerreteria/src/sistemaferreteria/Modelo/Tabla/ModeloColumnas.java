@@ -68,9 +68,9 @@ public class ModeloColumnas extends DefaultTableColumnModel{
     }
 
     private static final String[] ENCABEZADO = {
-        "Código", "Nombre", "Medida", "Capacidad", "Tamaño", "Precio"
+        "Código", "Nombre", "Medida", "Capacidad", "Tamaño", "Precio", "Cantidad", "Peso Kg" 
     };
     private static final int[] ANCHO_COLUMNA = {
-        95, 100, 110, 110, 95, 95
+        50, 50, 50, 50, 50, 50, 50, 50
     };
 }

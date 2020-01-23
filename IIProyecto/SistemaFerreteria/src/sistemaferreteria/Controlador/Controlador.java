@@ -99,12 +99,6 @@ public class Controlador {
         return datos.actualizarProducto(p);
     }
     
-    //eliminar un producto
-    public boolean eliminarProducto(Producto p) throws Exception{
-        datos.setPromedioEliminar(datos.getPromedioEliminar() + 1);
-        return datos.eliminarProducto(p);
-    }
-    
 
     //Métodos Factura
     //agrega factura

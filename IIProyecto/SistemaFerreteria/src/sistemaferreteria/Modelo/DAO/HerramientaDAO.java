@@ -113,7 +113,7 @@ public class HerramientaDAO {
         try (Connection cnx = obtenerConexion();
                 PreparedStatement stm = cnx.prepareStatement(CMD_LISTAR_POR_NOMBRE)) {
             stm.clearParameters();
-            stm.setString(2, nombre);
+            stm.setString(1, nombre);
 
             try (ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {

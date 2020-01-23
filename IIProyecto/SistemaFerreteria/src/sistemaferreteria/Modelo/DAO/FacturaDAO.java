@@ -22,8 +22,8 @@ import sistemaferreteria.Modelo.Entidades.Material;
 //           María Fernanda González Arias
 //
 //  III Ciclo 2019
-
 public class FacturaDAO {
+
     private static FacturaDAO instancia = null;
     private Properties cfg;
     private String baseDatos;
@@ -33,12 +33,15 @@ public class FacturaDAO {
     private static final String CMD_AGREGAR
             = "INSERT INTO factura (numero, fecha, total) "
             + "VALUES (?, ?, ?); ";
-    private static final String CMD_AGREGAR_DETALLE
-            = "INSERT INTO detalle (secuencia, numero_factura, codigo_material, codigo_herramienta, precio_total) "
+    private static final String CMD_AGREGAR_DETALLE_MATERIAL
+            = "INSERT INTO detalle (secuencia, numero_factura, codigo_material, precio_total) "
             + "VALUES (?, ?, ?, ?); ";
     private static final String CMD_ACTUALIZAR
             = "UPDATE detalle SET secuencia=?, codigo_material=?, codigo_herramienta=?, precio_total=? "
             + "WHERE numero_factura=?; ";
+    private static final String CMD_AGREGAR_DETALLE_HERRAMIENTA
+            = "INSERT INTO detalle (secuencia, numero_factura, codigo_herramienta, precio_total) "
+            + "VALUES (?, ?, ?, ?); ";
 
     private FacturaDAO() {
         this.cfg = new Properties();
@@ -53,42 +56,51 @@ public class FacturaDAO {
     }
 
     public boolean agregar(Factura nuevaFactura) throws SQLException {
-        boolean exito1 = false, exito2 = false;
+        boolean exito1 = false, exito2 = false, exito3 = false;
 
         try (Connection cnx = obtenerConexion();
                 PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR)) {
             stm.clearParameters();
-            
+
             stm.setInt(1, nuevaFactura.getNumero());
             stm.setDate(2, (Date) nuevaFactura.getFecha());
             stm.setDouble(3, nuevaFactura.getTotal());
-            
+
             exito2 = stm.executeUpdate() == 1;
         }
-        
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE)) {
-            stm.clearParameters();
-            
-            for(Detalle d : nuevaFactura.getProductos()){
-                stm.setInt(1, d.getSecuencia());
-                stm.setInt(2, nuevaFactura.getNumero());
-                if (d.getProducto().getClass().equals(Material.class)){
-                  stm.setString(3, d.getProducto().getCodigo()); 
-                  stm.setString(4, null); 
-                }
-                if (d.getProducto().getClass().equals(Herramienta.class)){
-                     stm.setString(3, null); 
-                  stm.setString(4, d.getProducto().getCodigo());   
-                }
 
-                stm.setDouble(5, d.getPrecio_total());
+        for (Detalle d : nuevaFactura.getProductos()) {
+            if (d.getProducto().getClass().equals(Material.class)) {
+                try (Connection cnx = obtenerConexion();
+                        PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE_MATERIAL)) {
+                    stm.clearParameters();
+
+                    stm.setInt(1, d.getSecuencia());
+                    stm.setInt(2, nuevaFactura.getNumero());
+                    stm.setString(3, d.getProducto().getCodigo());
+                    stm.setDouble(4, d.getPrecio_total());
+
+                    exito2 = stm.executeUpdate() == 1;
+                }
             }
-            
-            exito2 = stm.executeUpdate() == 1;
+            else{
+                try (Connection cnx = obtenerConexion();
+                        PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE_HERRAMIENTA)) {
+                    stm.clearParameters();
+
+                    stm.setInt(1, d.getSecuencia());
+                    stm.setInt(2, nuevaFactura.getNumero());
+                    stm.setString(3, d.getProducto().getCodigo());
+                    stm.setDouble(4, d.getPrecio_total());
+
+                    exito3 = stm.executeUpdate() == 1;
+                }
+                
+            }
+
         }
 
-        return exito1 && exito2;
+        return exito1 && (exito2 || exito3);
     }
 
     public boolean actualizar(Factura facturaActual) throws SQLException {
@@ -98,7 +110,7 @@ public class FacturaDAO {
                 PreparedStatement stm = cnx.prepareStatement(CMD_ACTUALIZAR)) {
             stm.clearParameters();
 
-            for(Detalle d: facturaActual.getProductos()){
+            for (Detalle d : facturaActual.getProductos()) {
                 stm.setInt(1, d.getSecuencia());
                 stm.setString(2, d.getProducto().getCodigo());
                 stm.setDouble(3, d.getPrecio_total());
@@ -110,6 +122,7 @@ public class FacturaDAO {
 
         return exito;
     }
+
     public static FacturaDAO obtenerInstancia() {
         if (instancia == null) {
             instancia = new FacturaDAO();

@@ -72,6 +72,8 @@ public class Herramienta extends Producto implements Serializable{
         }
         r[4] = 0.0;
         r[5] = getPrecio();
+        r[6] = getCantidadUnidades();
+        r[7] = 0.0;
         return r;
     }
 

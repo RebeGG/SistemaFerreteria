@@ -32,6 +32,7 @@ public class VentanaDetalles extends javax.swing.JFrame implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
+       modelo = (Modelo) o;
        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
        lblSecuencia.setText(String.format("%d", modelo.getFactura().getNumero()));
        lblFechaActual.setText(String.format("%s%n", df.format(modelo.getFactura().getFecha())));

@@ -168,6 +168,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 } else {
                     x.setCodigo(codigo);
                     x.setCantidadUnidades(cantidadUnidades);
+                    return x;
                 }
             case 2:
                 r = new Material();
@@ -177,25 +178,28 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 if (codigo.isEmpty() && pesoKg == 0.0) {
                     JOptionPane.showMessageDialog(this, "Favor ingresar todos los datos", "", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    r.setCodigo(codigo);
+                    n.setCodigo(codigo);
                     n.setPesoKg(pesoKg);
+                    return n;
                 }
         }
-        return r;
+        return null;
     }
 
-    private void actualizaCamposHerramienta(Herramienta p) {
-        campoCodigo.setText(p.getCodigo());
-        campoNombre.setText(p.getNombre());
-        spinnerCant.setValue(p.getCantidadUnidades());
-        campoPrecio.setText(Double.toString(p.getPrecio()));
+    private void actualizaCamposHerramienta(Producto p) {
+        Herramienta h = (Herramienta)p;
+        campoCodigo.setText(h.getCodigo());
+        campoNombre.setText(h.getNombre());
+        spinnerCant.setValue(h.getCantidadUnidades());
+        campoPrecio.setText(Double.toString(h.getPrecio()));
     }
 
-    private void actualizaCamposMateriales(Material p) {
-        campoCodigo.setText(p.getCodigo());
-        campoNombre.setText(p.getNombre());
-        spinnerCant.setValue(p.getPesoKg());
-        campoPrecio.setText(Double.toString(p.getPrecio()));
+    private void actualizaCamposMateriales(Producto p) {
+        Material m = (Material)p;
+        campoCodigo.setText(m.getCodigo());
+        campoNombre.setText(m.getNombre());
+        spinnerCant.setValue(m.getPesoKg());
+        campoPrecio.setText(Double.toString(m.getPrecio()));
     }
 
     @SuppressWarnings("unchecked")
@@ -551,27 +555,27 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         if (estado.enModoBusqueda()) {
             if (btnHerramientas.isSelected()) {
-                Producto p = filtro(1);
-                estado.setRegistroActual(p);
+                Herramienta p = (Herramienta) filtro(1);
+                //estado.setRegistroActual(p);
                 try {
                     estado.setRegistroActual(gestorPrincipal.obtenerProducto(p));
+                    actualizaCamposHerramienta(p);
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaFactura.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                actualizaCamposHerramienta((Herramienta) p);
             } else {
-                Producto p = filtro(2);
-                estado.setRegistroActual(p);
+                Material p = (Material)filtro(2);
+                //estado.setRegistroActual(p);
                 try {
                     estado.setRegistroActual(gestorPrincipal.obtenerProducto(p));
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaFactura.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                actualizaCamposMateriales((Material) p);
+                actualizaCamposMateriales(p);
             }
         }
-        estado.puedeGuardar();
-        actualizar();
+        //estado.cambiarModoModificar();
+        //actualizar();
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     public static void main(String args[]) {

@@ -236,6 +236,22 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         }
         return p;
     }
+    
+    private Herramienta filtroHerramienta(int opcion){
+        String nombre;
+        Herramienta p = new Herramienta();
+        switch(opcion){
+            case 1:
+                return p;
+            case 2:
+                nombre = fldname.getText();
+                p.setNombre(nombre);
+                break;
+        }
+        return p;
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -279,8 +295,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         cerrarApp = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        tablaInventario = new javax.swing.JMenuItem();
 
         setSize(new java.awt.Dimension(500, 500));
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -616,18 +630,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Selección");
-
-        tablaInventario.setText("Tabla inventario");
-        tablaInventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tablaInventarioActionPerformed(evt);
-            }
-        });
-        jMenu2.add(tablaInventario);
-
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -641,8 +643,8 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         estado.cambiarModoBuscar();
+        inventario.init();
         actualizar();
-        fldname.requestFocusInWindow();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -696,25 +698,27 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         if (estado.enModoBusqueda()) {
             if (btnHerramientas.isSelected() && fldname.getText().isEmpty()) {
-                Producto p = filtro(1);
-                estado.setRegistroActual(p);
+                Herramienta h = filtroHerramienta(1);
+                estado.setRegistroActual(h);
                 try {
-                    gestorPrincipal.listarProductos(p);
+                    gestorPrincipal.listarProductos(h);
+                    System.out.println("Entro al filtro 1");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
                 } catch (Exception ex) {
-                    System.out.println("I cant");
+                    System.out.println("I cant name");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                Producto p = filtro(2);
-                estado.setRegistroActual(p);
+                Herramienta h = filtroHerramienta(2);
+                 estado.setRegistroActual(h);
                 try {
                     gestorPrincipal.listarHerramientas(fldname.getText());
+                     System.out.println("Entro al filtro 2");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
                 } catch (Exception ex) {
-                    System.out.println("I cant");
+                    System.out.println("I cant tool");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -723,10 +727,11 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.listarProductos(p);
+                     System.out.println("Entro al filtro 3");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
                 } catch (Exception ex) {
-                    System.out.println("I cant");
+                    System.out.println("I cant nameM");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
@@ -734,10 +739,11 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.listarMateriales(fldname.getText());
+                     System.out.println("Entro al filtro 4");
                     JOptionPane.showMessageDialog(this, "Búsqueda se ha realizado correctamente", "BUSQUEDA-FINALIZADA", JOptionPane.PLAIN_MESSAGE);
                     //actualizaCampos(p);
                 } catch (Exception ex) {
-                    System.out.println("I cant");
+                    System.out.println("I cant material");
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -757,10 +763,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private void cerrarAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarAppActionPerformed
         gestorPrincipal.cerrarAplicacion();
     }//GEN-LAST:event_cerrarAppActionPerformed
-
-    private void tablaInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tablaInventarioActionPerformed
-        inventario.init();
-    }//GEN-LAST:event_tablaInventarioActionPerformed
 
     private void btnHerramientasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHerramientasActionPerformed
         actualizar();
@@ -836,7 +838,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel lblCant;
     private javax.swing.JLabel lblCapacidad;
@@ -854,7 +855,6 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel lblPromedioModificar;
     private javax.swing.JSpinner spinnerCant;
     private javax.swing.JSpinner spinnerPeso;
-    private javax.swing.JMenuItem tablaInventario;
     // End of variables declaration//GEN-END:variables
 
 }

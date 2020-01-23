@@ -13,6 +13,8 @@ import sistemaferreteria.Modelo.DAO.FacturaDAO;
 import sistemaferreteria.Modelo.DAO.GestorBD;
 import sistemaferreteria.Modelo.DAO.HerramientaDAO;
 import sistemaferreteria.Modelo.DAO.MaterialDAO;
+import sistemaferreteria.Modelo.Entidades.ConjuntoHerramientas;
+import sistemaferreteria.Modelo.Entidades.ConjuntoMateriales;
 import sistemaferreteria.Modelo.Entidades.Detalle;
 import sistemaferreteria.Modelo.Entidades.Factura;
 import sistemaferreteria.Modelo.Entidades.Inventario;
@@ -40,7 +42,8 @@ public class Modelo extends Observable implements Runnable {
     private int promedioActualizar;
     private int promedioEliminar;
     private int promedioConsultar;
-    private Inventario inventario;
+    private ConjuntoHerramientas inventarioH;
+    private ConjuntoMateriales inventarioM;
     private Producto producto;
     private static final int MAX_ESPERA = 300;
     private Thread hiloControl = null;
@@ -53,7 +56,8 @@ public class Modelo extends Observable implements Runnable {
         this.activo = false;
         this.banderaMinuto = 0;
         this.factura = new Factura();
-        this.inventario = new Inventario();
+        this.inventarioM = new ConjuntoMateriales();
+        this.inventarioH = new ConjuntoHerramientas();
         this.producto = null;
         this.promedioAgregar = 0;
         this.promedioActualizar = 0;
@@ -80,21 +84,25 @@ public class Modelo extends Observable implements Runnable {
         this.banderaMinuto = bandera;
     }
     
-    public Inventario getInventario() {
-        return inventario;
+    public ConjuntoMateriales getInventarioM() {
+        return inventarioM;
     }
     
-    public void setInventario(List<Producto> inventario) {
-        this.inventario.setInventario(inventario);
+    public ConjuntoHerramientas getInventarioH() {
+        return inventarioH;
+    }
+    
+    public void setInventarioH(List<Herramienta> inventario) {
+        this.inventarioH.setInventario(inventario);
         setChanged();
         notifyObservers();
     }
     
-    //    public void setInventario(Inventario inventario) {
-//        this.inventario = inventario;
-//        setChanged();
-//        notifyObservers();
-//    }
+     public void setInventarioM(List<Material> inventario) {
+        this.inventarioM.setInventario(inventario);
+        setChanged();
+        notifyObservers();
+    }
 
     public Factura getFactura() {
         return factura;
@@ -148,10 +156,14 @@ public class Modelo extends Observable implements Runnable {
         this.promedioEliminar = eliminar;
     }
     
-    public Inventario obtenerModeloTabla() {
-        return inventario.obtenerModelo();
+    public ConjuntoMateriales obtenerModeloTablaM() {
+        return inventarioM.obtenerModelo();
     }
     
+    
+    public ConjuntoHerramientas obtenerModeloTablaH() {
+        return inventarioH.obtenerModelo();
+    }
     
     //Métodos Hilo
     public void init() {
@@ -197,21 +209,11 @@ public class Modelo extends Observable implements Runnable {
         if(p != null){
             if(p.getClass().equals(Herramienta.class)){
                 hd = HerramientaDAO.obtenerInstancia();
-                List<Producto> inventarioAux = new ArrayList();
-                for(Herramienta h:hd.listar()){
-                    setPromedioConsultar(getPromedioConsultar() + 1);
-                    inventarioAux.add(h);
-                }
-                setInventario(inventarioAux);
+                setInventarioH(hd.listar());
             }
             else{
                 md = MaterialDAO.obtenerInstancia();
-                List<Producto> inventarioAux = new ArrayList();
-                for(Material m:md.listar()){
-                    setPromedioConsultar(getPromedioConsultar() + 1);
-                    inventarioAux.add(m);
-                }
-                setInventario(inventarioAux);
+                setInventarioM(md.listar());
             }
         }
         else{
@@ -223,22 +225,13 @@ public class Modelo extends Observable implements Runnable {
     public void listarHerramientas(String nombre) throws Exception{
         hd = HerramientaDAO.obtenerInstancia();
         List<Producto> inventarioAux = new ArrayList();
-        for(Herramienta h:hd.listarPorNombre(nombre)){
-            setPromedioConsultar(getPromedioConsultar() + 1);
-            inventarioAux.add(h);
-        }
-        setInventario(inventarioAux);
+        setInventarioH(hd.listarPorNombre(nombre));
     }
     
     //busca según nombre del Material
     public void listarMateriales(String nombre) throws Exception{
         md = MaterialDAO.obtenerInstancia();
-        List<Producto> inventarioAux = new ArrayList();
-        for(Material m:md.listarPorNombre(nombre)){
-            setPromedioConsultar(getPromedioConsultar() + 1);
-            inventarioAux.add(m);
-        }
-        setInventario(inventarioAux);
+        setInventarioM(md.listarPorNombre(nombre));
     }
     
     //busca un Producto específico

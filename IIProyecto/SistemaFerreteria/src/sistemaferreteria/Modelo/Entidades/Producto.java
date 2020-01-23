@@ -66,7 +66,7 @@ public abstract class Producto implements Serializable{
     public abstract Object[] toArray();
     
     public static int getFieldCount(){
-        return 6;
+        return 8;
     }
     
     @Override

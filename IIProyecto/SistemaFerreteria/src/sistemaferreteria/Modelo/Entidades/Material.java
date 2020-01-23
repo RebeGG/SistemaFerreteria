@@ -59,6 +59,8 @@ public class Material extends Producto implements Serializable{
         r[3] = "-";
         r[4] = getTamano();
         r[5] = getPrecio();
+        r[6] = 0;
+        r[7] = getPesoKg();
         return r;
     }       
 }

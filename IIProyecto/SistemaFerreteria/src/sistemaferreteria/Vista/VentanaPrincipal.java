@@ -2,7 +2,10 @@ package sistemaferreteria.Vista;
 
 //  Universidad Nacional
 
+import java.util.Observable;
+import java.util.Observer;
 import sistemaferreteria.Controlador.Controlador;
+import sistemaferreteria.Modelo.Modelo;
 
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
@@ -15,12 +18,14 @@ import sistemaferreteria.Controlador.Controlador;
 //
 //  III Ciclo 2019
 
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     Controlador gestor;
     public VentanaPrincipal(String titulo, Controlador gestor){
         super(titulo);
         this.gestor=gestor;
         this.inventario= new VentanaInventario("Inventario", this.gestor);
+        this.factura= new VentanaFactura("Factura", this.gestor);
+        this.detalles= new VentanaDetalles("Factura detallada", this.gestor);
         configurar();
     }
     
@@ -34,6 +39,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public void init() {
+        gestor.registrar(this);
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -47,6 +53,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         salirMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         inventarioItem = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        facturacionItem = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -69,7 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Inventario");
 
         inventarioItem.setText("Inventario");
         inventarioItem.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +88,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu2.add(inventarioItem);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Facturación");
+
+        facturacionItem.setText("Facturación");
+        facturacionItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                facturacionItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(facturacionItem);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -110,6 +130,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void cerrarVentana(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_cerrarVentana
          gestor.cerrarAplicacion();
     }//GEN-LAST:event_cerrarVentana
+
+    private void facturacionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturacionItemActionPerformed
+        factura.init();
+        detalles.init();
+    }//GEN-LAST:event_facturacionItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,14 +170,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
     }
-    VentanaInventario inventario;
+    
+     @Override
+    public void update(Observable o, Object arg) {
+        modelo = (Modelo) o;
+    }
+    
+    private Modelo modelo = null;
+    private VentanaInventario inventario;
+    private VentanaFactura factura;
+    private VentanaDetalles detalles;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem facturacionItem;
     private javax.swing.JMenuItem inventarioItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem salirMenuItem;
     private javax.swing.JLabel tituloSistema;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -99,12 +99,6 @@ public class Controlador {
         return datos.actualizarProducto(p);
     }
     
-    //eliminar un producto
-    public boolean eliminarProducto(Producto p) throws Exception{
-        datos.setPromedioEliminar(datos.getPromedioEliminar() + 1);
-        return datos.eliminarProducto(p);
-    }
-    
 
     //Métodos Factura
     //agrega factura
@@ -116,12 +110,6 @@ public class Controlador {
     public boolean agregarProductoFactura(Producto p)throws Exception{
         return datos.agregarProducto(p);
     }
-    
-    //elimina producto de la factura
-    public boolean eliminarProductoFactura(Producto p) throws Exception{
-        return datos.eliminarProductoFactura(p);
-    }
-    
     
     //cargar inventario
     public void cargar(){

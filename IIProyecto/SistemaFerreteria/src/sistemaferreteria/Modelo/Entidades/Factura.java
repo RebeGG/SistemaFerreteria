@@ -129,15 +129,10 @@ public class Factura {
     
     @Override
     public String toString(){
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        StringBuilder s = new StringBuilder("---------------- FERRETERÍA ---------------\n");
-        s.append(String.format("Número de Factura: %s%n", getNumero()));
-        s.append(String.format("Fecha: %s%n", df.format(getFecha())));
-        s.append("Produtos.................................");
+        StringBuilder s = new StringBuilder();
         for(Detalle d: productos){
             s.append(String.format("%s%n", d.toString()));
         }
-        s.append(".........................................");
         return s.toString();
     }
 }

@@ -42,7 +42,7 @@ public class Modelo extends Observable implements Runnable {
     private int promedioConsultar;
     private Inventario inventario;
     private Producto producto;
-    private static final int MAX_ESPERA = 30000;
+    private static final int MAX_ESPERA = 300;
     private Thread hiloControl = null;
     private HerramientaDAO hd;
     private MaterialDAO md;
@@ -266,12 +266,16 @@ public class Modelo extends Observable implements Runnable {
             if(p.getClass().equals(Herramienta.class)){
                 hd = HerramientaDAO.obtenerInstancia();
                 Herramienta h = (Herramienta) p;
+                setChanged();
+                notifyObservers();
                 setPromedioAgregar(getPromedioAgregar() + 1);
                 return hd.agregar(h);
             }
             else{
                 md = MaterialDAO.obtenerInstancia();
                 Material m = (Material) p;
+                setChanged();
+                notifyObservers();
                 setPromedioAgregar(getPromedioAgregar() + 1);
                 return md.agregar(m);
             }
@@ -287,33 +291,18 @@ public class Modelo extends Observable implements Runnable {
             if(p.getClass().equals(Herramienta.class)){
                 hd = HerramientaDAO.obtenerInstancia();
                 Herramienta h = (Herramienta) p;
+                setChanged();
+                notifyObservers();
                 setPromedioActualizar(getPromedioActualizar() + 1);
                 return hd.actualizar(h);
             }
             else{
                 md = MaterialDAO.obtenerInstancia();
                 Material m = (Material) p;
+                setChanged();
+                notifyObservers();
                 setPromedioActualizar(getPromedioActualizar() + 1);
                 return md.actualizar(m);
-            }
-        }
-        else{
-            throw new Exception("Parámetros de búsqueda vacíos");
-        }
-    }
-    
-    //eliminar un producto
-    public boolean eliminarProducto(Producto p) throws Exception{
-        if(p != null){
-            if(p.getClass().equals(Herramienta.class)){
-                hd = HerramientaDAO.obtenerInstancia();
-                setPromedioEliminar(getPromedioEliminar() + 1);
-                return hd.eliminar(p.getCodigo());
-            }
-            else{
-                md = MaterialDAO.obtenerInstancia();
-                setPromedioEliminar(getPromedioEliminar() + 1);
-                return md.eliminar(p.getCodigo());
             }
         }
         else{
@@ -329,7 +318,7 @@ public class Modelo extends Observable implements Runnable {
         fd = FacturaDAO.obtenerInstancia();
         setPromedioAgregar(getPromedioAgregar() + 1);
         boolean resultado = fd.agregar(factura);
-        factura = new Factura();
+        setFactura(new Factura());
         return resultado;
     }
     
@@ -345,6 +334,8 @@ public class Modelo extends Observable implements Runnable {
                 if(auxH.getCantidadUnidades() >= h.getCantidadUnidades()){
                     auxH.setCantidadUnidades(auxH.getCantidadUnidades() - h.getCantidadUnidades());
                     hd.actualizar(auxH);
+                    setChanged();
+                    notifyObservers();
                     setPromedioActualizar(getPromedioActualizar() + 1);
                 }
                 else{
@@ -359,6 +350,8 @@ public class Modelo extends Observable implements Runnable {
                 if(auxM.getPesoKg() >= m.getPesoKg()){
                     auxM.setPesoKg(auxM.getPesoKg() - m.getPesoKg());
                     md.actualizar(auxM);
+                    setChanged();
+                    notifyObservers();
                     setPromedioActualizar(getPromedioActualizar() + 1);
                 }
                 else{
@@ -377,36 +370,6 @@ public class Modelo extends Observable implements Runnable {
         factura.setTotal(factura.calcularTotal());
     }
     
-    //elimina producto de la factura
-    public boolean eliminarProductoFactura(Producto p) throws Exception{
-        fd = FacturaDAO.obtenerInstancia();
-        if(p != null){
-            if(p.getClass().equals(Herramienta.class)){
-                hd = HerramientaDAO.obtenerInstancia();
-                Herramienta auxH = hd.recuperar(p.getCodigo());
-                setPromedioConsultar(getPromedioConsultar() + 1);
-                Herramienta h = (Herramienta) p;
-                auxH.setCantidadUnidades(auxH.getCantidadUnidades() + h.getCantidadUnidades());
-                hd.actualizar(auxH);
-                setPromedioActualizar(getPromedioActualizar() + 1);
-            }
-            else{
-                md = MaterialDAO.obtenerInstancia();
-                Material auxM = md.recuperar(p.getCodigo());
-                setPromedioConsultar(getPromedioConsultar() + 1);
-                Material m = (Material) p;
-                auxM.setPesoKg(auxM.getPesoKg() + m.getPesoKg());
-                md.actualizar(auxM);
-                setPromedioActualizar(getPromedioActualizar() + 1);
-            }
-        }
-        else{
-            throw new Exception("Parámetros de búsqueda vacíos");
-        }
-        setPromedioEliminar(getPromedioEliminar() + 1);
-        return fd.eliminarDetalle(factura.getNumero(), p.getCodigo());
-    }
-    
     public void cargar(){
         hd = HerramientaDAO.obtenerInstancia();
         md = MaterialDAO.obtenerInstancia();
@@ -417,7 +380,9 @@ public class Modelo extends Observable implements Runnable {
                 String nombre = entrada.next();
                 String medida = entrada.next();
                 if(codigo.charAt(0) == 'H'){
+                    System.out.println("Si leyó");
                     int capacidad = entrada.nextInt();
+                    System.out.println(capacidad);
                     int cantidadUnidades = entrada.nextInt();
                     Double precio = entrada.nextDouble();
                     try {

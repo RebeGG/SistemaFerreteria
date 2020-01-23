@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 import sistemaferreteria.Modelo.Entidades.Factura;
 import sistemaferreteria.Modelo.Entidades.Detalle;
+import sistemaferreteria.Modelo.Entidades.Herramienta;
+import sistemaferreteria.Modelo.Entidades.Material;
 
 //  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
@@ -20,8 +22,8 @@ import sistemaferreteria.Modelo.Entidades.Detalle;
 //           María Fernanda González Arias
 //
 //  III Ciclo 2019
-
 public class FacturaDAO {
+
     private static FacturaDAO instancia = null;
     private Properties cfg;
     private String baseDatos;
@@ -31,19 +33,16 @@ public class FacturaDAO {
     private static final String CMD_AGREGAR
             = "INSERT INTO factura (numero, fecha, total) "
             + "VALUES (?, ?, ?); ";
-    private static final String CMD_AGREGAR_DETALLE
-            = "INSERT INTO detalle (numero_factura, secuencia, codigo_producto, precio_total) "
+    private static final String CMD_AGREGAR_DETALLE_MATERIAL
+            = "INSERT INTO detalle (secuencia, numero_factura, codigo_material, precio_total) "
             + "VALUES (?, ?, ?, ?); ";
     private static final String CMD_ACTUALIZAR
-            = "UPDATE detalle SET secuencia=?, codigo_producto=?, precio_total=? "
+            = "UPDATE detalle SET secuencia=?, codigo_material=?, codigo_herramienta=?, precio_total=? "
             + "WHERE numero_factura=?; ";
-    private static final String CMD_ELIMINAR
-            = "DELETE FROM factura WHERE numero=?; ";
-    private static final String CMD_ELIMINAR_DETALLE_POR_FACTURA
-            = "DELETE FROM detalle WHERE numero_factura=?; ";
-    private static final String CMD_ELIMINAR_DETALLE
-            = "DELETE FROM detalle WHERE numero_factura=?,codigo_producto=?; ";//revisar
-    
+    private static final String CMD_AGREGAR_DETALLE_HERRAMIENTA
+            = "INSERT INTO detalle (secuencia, numero_factura, codigo_herramienta, precio_total) "
+            + "VALUES (?, ?, ?, ?); ";
+
     private FacturaDAO() {
         this.cfg = new Properties();
         try {
@@ -57,34 +56,51 @@ public class FacturaDAO {
     }
 
     public boolean agregar(Factura nuevaFactura) throws SQLException {
-        boolean exito1 = false, exito2 = false;
+        boolean exito1 = false, exito2 = false, exito3 = false;
 
         try (Connection cnx = obtenerConexion();
                 PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR)) {
             stm.clearParameters();
-            
+
             stm.setInt(1, nuevaFactura.getNumero());
             stm.setDate(2, (Date) nuevaFactura.getFecha());
             stm.setDouble(3, nuevaFactura.getTotal());
-            
-            exito2 = stm.executeUpdate() == 1;
-        }
-        
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE)) {
-            stm.clearParameters();
-            
-            for(Detalle d : nuevaFactura.getProductos()){
-                stm.setInt(1, nuevaFactura.getNumero());
-                stm.setInt(1, d.getSecuencia());
-                stm.setString(1, d.getProducto().getCodigo());
-                stm.setDouble(1, d.getPrecio_total());
-            }
-            
+
             exito2 = stm.executeUpdate() == 1;
         }
 
-        return exito1 && exito2;
+        for (Detalle d : nuevaFactura.getProductos()) {
+            if (d.getProducto().getClass().equals(Material.class)) {
+                try (Connection cnx = obtenerConexion();
+                        PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE_MATERIAL)) {
+                    stm.clearParameters();
+
+                    stm.setInt(1, d.getSecuencia());
+                    stm.setInt(2, nuevaFactura.getNumero());
+                    stm.setString(3, d.getProducto().getCodigo());
+                    stm.setDouble(4, d.getPrecio_total());
+
+                    exito2 = stm.executeUpdate() == 1;
+                }
+            }
+            else{
+                try (Connection cnx = obtenerConexion();
+                        PreparedStatement stm = cnx.prepareStatement(CMD_AGREGAR_DETALLE_HERRAMIENTA)) {
+                    stm.clearParameters();
+
+                    stm.setInt(1, d.getSecuencia());
+                    stm.setInt(2, nuevaFactura.getNumero());
+                    stm.setString(3, d.getProducto().getCodigo());
+                    stm.setDouble(4, d.getPrecio_total());
+
+                    exito3 = stm.executeUpdate() == 1;
+                }
+                
+            }
+
+        }
+
+        return exito1 && (exito2 || exito3);
     }
 
     public boolean actualizar(Factura facturaActual) throws SQLException {
@@ -94,7 +110,7 @@ public class FacturaDAO {
                 PreparedStatement stm = cnx.prepareStatement(CMD_ACTUALIZAR)) {
             stm.clearParameters();
 
-            for(Detalle d: facturaActual.getProductos()){
+            for (Detalle d : facturaActual.getProductos()) {
                 stm.setInt(1, d.getSecuencia());
                 stm.setString(2, d.getProducto().getCodigo());
                 stm.setDouble(3, d.getPrecio_total());
@@ -106,63 +122,6 @@ public class FacturaDAO {
 
         return exito;
     }
-
-    public boolean eliminar(int numero) throws SQLException {
-        boolean exito1 = false;
-        boolean exito2 = false;
-
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_ELIMINAR)) {
-            stm.clearParameters();
-            stm.setInt(1, numero);
-
-            exito1 = stm.executeUpdate() == 1;
-        }
-        
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_ELIMINAR_DETALLE_POR_FACTURA)) {
-            stm.clearParameters();
-            stm.setInt(1, numero);
-
-            exito2 = stm.executeUpdate() == 1;
-        }
-
-        return exito1 && exito2;
-    }
-    
-    public boolean eliminarDetalle(int numero, String codigo) throws SQLException {
-        boolean exito = false;
-
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(CMD_ELIMINAR_DETALLE)) {
-            stm.clearParameters();
-            stm.setInt(1, numero);
-            stm.setString(2, codigo);
-
-            exito = stm.executeUpdate() == 1;
-        }
-
-        return exito;
-    }
-
-    public MaterialDAO eliminarTodos() {
-        throw new UnsupportedOperationException();
-    }
-
-//    @Override
-//    public String toString() {
-//        StringBuilder r = new StringBuilder("[\n");
-//        try {
-//            List<Factura> facturas = listar();
-//            for (Factura e : facturas) {
-//                r.append(String.format("\t%s,%n", e));
-//            }
-//        } catch (SQLException ex) {
-//            r.append(String.format("(Excepción: '%s')", ex.getMessage()));
-//        }
-//        r.append("]");
-//        return r.toString();
-//    }
 
     public static FacturaDAO obtenerInstancia() {
         if (instancia == null) {

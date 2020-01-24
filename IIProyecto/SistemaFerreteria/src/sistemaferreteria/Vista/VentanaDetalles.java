@@ -28,7 +28,7 @@ public class VentanaDetalles extends javax.swing.JFrame implements Observer{
     public void init(){
         controlador.registrar(this);
         setVisible(true);
-     }
+    }
     
     @Override
     public void update(Observable o, Object arg) {

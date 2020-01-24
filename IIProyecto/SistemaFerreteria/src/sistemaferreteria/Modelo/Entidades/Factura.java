@@ -29,7 +29,7 @@ public class Factura {
         this.numero = numero;
         this.fecha = new Date();
         this.productos = new ArrayList<>();
-        this.total = 0;
+        this.total = 0.0;
     }
     
     public Factura(){

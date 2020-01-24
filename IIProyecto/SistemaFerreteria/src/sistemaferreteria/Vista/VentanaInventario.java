@@ -106,7 +106,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
             spinnerPeso.setEnabled(false);
             fieldPrecio.setText(Double.toString(actual.getPrecio()));
         }
-        if (btnMateriales.isSelected() && (estado.getRegistroActual() != null)) {
+        else if (btnMateriales.isSelected() && (estado.getRegistroActual() != null)) {
             Material actual = (Material) estado.getRegistroActual();
             fldcodigo.setText(actual.getCodigo());
             fldname.setText(actual.getNombre());

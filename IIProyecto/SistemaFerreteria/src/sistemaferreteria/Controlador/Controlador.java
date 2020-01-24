@@ -102,9 +102,4 @@ public class Controlador {
     public void agregarProductoFactura(Producto p)throws Exception{
         datos.agregarProductoFactura(p);
     }
-    
-    //cargar inventario
-    public void cargar(){
-        datos.cargar();
-    }
 }

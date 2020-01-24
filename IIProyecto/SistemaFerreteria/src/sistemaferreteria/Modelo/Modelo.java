@@ -355,43 +355,4 @@ public class Modelo extends Observable implements Runnable {
         notifyObservers();
     }
     
-    public void cargar(){
-        hd = HerramientaDAO.obtenerInstancia();
-        md = MaterialDAO.obtenerInstancia();
-        try (Scanner entrada = new Scanner(new FileInputStream("src/Archivos/inventario.txt"));) {
-            entrada.useDelimiter("\t|\r\n");
-            while (entrada.hasNext()){
-                String codigo = entrada.next();
-                String nombre = entrada.next();
-                String medida = entrada.next();
-                if(codigo.charAt(0) == 'H'){
-                    System.out.println("Si leyó");
-                    int capacidad = entrada.nextInt();
-                    System.out.println(capacidad);
-                    int cantidadUnidades = entrada.nextInt();
-                    Double precio = entrada.nextDouble();
-                    try {
-                        hd.agregar(new Herramienta(codigo,nombre,medida,precio,capacidad,cantidadUnidades));
-                        setPromedioAgregar(getPromedioAgregar() + 1);
-                    } catch (SQLException ex) {
-                        System.err.println(ex.getMessage());
-                    }
-                }
-                else{
-                    String tamano = entrada.next();
-                    Double pesoKg = entrada.nextDouble();
-                    Double precio = entrada.nextDouble();
-                    try {
-                        md.agregar(new Material(codigo,nombre,medida,precio,tamano,pesoKg));
-                        setPromedioAgregar(getPromedioAgregar() + 1);
-                    } catch (SQLException ex) {
-                        System.err.println(ex.getMessage());
-                    }
-                }
-            }
-            entrada.close();
-        } catch (FileNotFoundException ex) {
-            System.err.printf("Excepción: '%s'%n", ex.getMessage());
-        }
-    }
 }

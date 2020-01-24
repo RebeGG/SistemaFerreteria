@@ -143,26 +143,6 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         campoTotal.setEnabled(false);
     }
 
-    private Material actualizarRegistroMaterial(Material r) {
-        if (r != null) {
-            r.setCodigo(campoCodigo.getText());
-            r.setNombre(campoNombre.getText());
-            r.setPesoKg((double) spinnerPeso.getValue());
-            r.setPrecio(Double.parseDouble(campoPrecio.getText()));
-        }
-        return r;
-    }
-
-    private Herramienta actualizarRegistroHerramienta(Herramienta r) {
-        if (r != null) {
-            r.setCodigo(campoCodigo.getText());
-            r.setNombre(campoNombre.getText());
-            r.setCantidadUnidades((int) spinnerCant.getValue());
-            r.setPrecio(Double.parseDouble(campoPrecio.getText()));
-        }
-        return r;
-    }
-
     private Producto filtro(int opcion) {
         String codigo;
         int cantidadUnidades;

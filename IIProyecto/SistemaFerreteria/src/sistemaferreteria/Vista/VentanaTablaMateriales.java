@@ -2,8 +2,12 @@ package sistemaferreteria.Vista;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -63,6 +67,12 @@ public class VentanaTablaMateriales extends JFrame implements Observer{
         panelPrincipal.add(BorderLayout.CENTER, controlDesplazamientoTabla);
 
         c.add(BorderLayout.CENTER, panelPrincipal);
+        
+        tablaInventario.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent ev){
+                tablaMaterialesMouse(ev);
+            }
+        });
     }
 
     public void init() {
@@ -73,5 +83,16 @@ public class VentanaTablaMateriales extends JFrame implements Observer{
     @Override
     public void update(Observable m, Object evt) {
         tablaInventario.actualizar();
+    }
+    
+         private void tablaMaterialesMouse(MouseEvent evt){
+        if (evt.getClickCount() == 2){
+            int row = this.tablaInventario.getSelectedRow();
+            try {
+                controlador.filtroMaterial(row);
+            } catch (Exception ex) {
+                Logger.getLogger(VentanaTablaHerramientas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

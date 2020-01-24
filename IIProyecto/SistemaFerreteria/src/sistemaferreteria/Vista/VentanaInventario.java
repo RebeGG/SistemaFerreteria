@@ -2,6 +2,7 @@ package sistemaferreteria.Vista;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Observable;
@@ -662,7 +663,33 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 }
             }
 
-        } else {
+        } else if (estado.enModoActualizacion()){
+            if (btnHerramientas.isSelected()){
+                Herramienta h = (Herramienta) estado.getRegistroActual();
+                if (h != null){
+                    h = actualizarRegistroHerramienta(h);
+                }
+                estado.setRegistroActual(h);
+                try {
+                    gestorPrincipal.actualizarProducto(h);
+                } catch (Exception ex) {
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if(btnMateriales.isSelected()){
+                Material h = (Material) estado.getRegistroActual();
+                if (h != null){
+                    h = actualizarRegistroMaterial(h);
+                }
+                estado.setRegistroActual(h);
+                try {
+                    gestorPrincipal.actualizarProducto(h);
+                } catch (Exception ex) {
+                    Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } 
+        
+        else {
             JOptionPane.showMessageDialog(null, "Ya existe este producto", "", JOptionPane.OK_OPTION);
         }
         estado.cambiarModoConsulta();

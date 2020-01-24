@@ -91,6 +91,14 @@ public class Controlador {
         return datos.actualizarProducto(p);
     }
     
+    public void filtroMaterial(int row) throws Exception{
+        datos.filtroMaterial(row);
+    }
+    
+    public void filtroHerramienta(int row) throws Exception{
+        datos.filtroHerramienta(row);
+    }
+    
 
     //Métodos Factura
     //agrega factura

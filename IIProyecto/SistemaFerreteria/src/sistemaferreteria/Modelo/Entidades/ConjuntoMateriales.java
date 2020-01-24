@@ -41,8 +41,21 @@ public class ConjuntoMateriales  extends java.util.Observable implements Seriali
         return inventario.size();
     }
     
-    public Producto obtener(int i) {
+    public Material obtener(int i) {
         return inventario.get(i);
+    }
+    
+    public void actualizar(Material m){
+        int i = 0;
+        for(Material auxM: inventario){
+            if(auxM.getCodigo().equals(m.getCodigo())){
+                i = inventario.indexOf(auxM);
+                break;
+            }
+        }
+        inventario.set(i, m);
+        setChanged();
+        notifyObservers();
     }
 
     public void borrar() {

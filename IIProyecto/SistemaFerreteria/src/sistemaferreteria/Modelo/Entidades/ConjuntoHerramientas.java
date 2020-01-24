@@ -41,8 +41,21 @@ public class ConjuntoHerramientas extends java.util.Observable implements Serial
         return inventario.size();
     }
     
-    public Producto obtener(int i) {
+    public Herramienta obtener(int i) {
         return inventario.get(i);
+    }
+    
+    public void actualizar(Herramienta h){
+        int i = 0;
+        for(Herramienta auxH: inventario){
+            if(auxH.getCodigo().equals(h.getCodigo())){
+                i = inventario.indexOf(auxH);
+                break;
+            }
+        }
+        inventario.set(i, h);
+        setChanged();
+        notifyObservers();
     }
 
     public void borrar() {

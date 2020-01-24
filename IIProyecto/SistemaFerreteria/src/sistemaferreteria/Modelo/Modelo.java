@@ -41,6 +41,8 @@ public class Modelo extends Observable implements Runnable {
     private ConjuntoHerramientas inventarioH;
     private ConjuntoMateriales inventarioM;
     private Producto producto;
+    private Herramienta herramienta;
+    private Material material;
     private static final int MAX_ESPERA = 300;
     private Thread hiloControl = null;
     private HerramientaDAO hd;
@@ -62,6 +64,8 @@ public class Modelo extends Observable implements Runnable {
         this.hd = null;
         this.md = null;
         this.fd = null;
+        this.herramienta = new Herramienta();
+        this.material = new Material();
     }
 
     public synchronized boolean activo() {
@@ -116,6 +120,26 @@ public class Modelo extends Observable implements Runnable {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+        setChanged();
+        notifyObservers();
+    }
+    
+    public Herramienta getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(Herramienta herramienta) {
+        this.herramienta = herramienta;
+        setChanged();
+        notifyObservers();
+    }
+    
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
         setChanged();
         notifyObservers();
     }
@@ -261,29 +285,55 @@ public class Modelo extends Observable implements Runnable {
         }
     }
     
+    public void filtroHerramienta(int row) throws Exception{
+        hd = HerramientaDAO.obtenerInstancia();
+        setHerramienta(hd.recuperar(inventarioH.obtener(row).getCodigo()));
+        setPromedioConsultar(getPromedioConsultar()+1);
+    }
+    
+    public void filtroMaterial(int row) throws Exception{
+        md = MaterialDAO.obtenerInstancia();
+        setMaterial(md.recuperar(inventarioM.obtener(row).getCodigo()));
+        setPromedioConsultar(getPromedioConsultar()+1);
+    }
+    
     //actualizar un producto
     public boolean actualizarProducto(Producto p) throws Exception{
+        boolean exito = false;
         if(p != null){
             if(p.getClass().equals(Herramienta.class)){
                 hd = HerramientaDAO.obtenerInstancia();
                 Herramienta h = (Herramienta) p;
-                setChanged();
-                notifyObservers();
-                setPromedioActualizar(getPromedioActualizar() + 1);
-                return hd.actualizar(h);
+                exito = hd.actualizar(h);
+                if(exito){
+                    inventarioH.actualizar(h);
+//                    setChanged();
+//                    notifyObservers();
+                    setPromedioActualizar(getPromedioActualizar() + 1);
+                }
+                else{
+                    throw new Exception("No se pudo realizar la modificación de la Herramienta");
+                }
             }
             else{
                 md = MaterialDAO.obtenerInstancia();
                 Material m = (Material) p;
-                setChanged();
-                notifyObservers();
-                setPromedioActualizar(getPromedioActualizar() + 1);
-                return md.actualizar(m);
+                exito = md.actualizar(m);
+                if(exito){
+                    inventarioM.actualizar(m);
+//                    setChanged();
+//                    notifyObservers();
+                    setPromedioActualizar(getPromedioActualizar() + 1);
+                }
+                else{
+                    throw new Exception("No se pudo realizar la modificación del Material");
+                }
             }
         }
         else{
             throw new Exception("Parámetros de búsqueda vacíos");
         }
+        return exito;
     }
     
     

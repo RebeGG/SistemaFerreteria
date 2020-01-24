@@ -56,7 +56,6 @@ public class FacturaDAO {
     }
 
     public boolean agregar(Factura nuevaFactura) throws SQLException {
-        System.out.println("...");
         boolean exito1 = false, exito2 = false, exito3 = false;
 
         try (Connection cnx = obtenerConexion();
@@ -69,7 +68,6 @@ public class FacturaDAO {
             exito1 = stm.executeUpdate() == 1;
             System.out.println(exito1);
         }
-        System.out.println("factura yes");
         for (Detalle d : nuevaFactura.getProductos()) {
             if (d.getProducto().getClass().equals(Material.class)) {
                 try (Connection cnx = obtenerConexion();

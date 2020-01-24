@@ -131,7 +131,7 @@ public class Modelo extends Observable implements Runnable {
     public void setHerramienta(Herramienta herramienta) {
         this.herramienta = herramienta;
         setChanged();
-        notifyObservers();
+        notifyObservers(herramienta);
     }
     
     public Material getMaterial() {
@@ -141,7 +141,7 @@ public class Modelo extends Observable implements Runnable {
     public void setMaterial(Material material) {
         this.material = material;
         setChanged();
-        notifyObservers();
+        notifyObservers(material);
     }
     
     public int getPromedioAgregar() {

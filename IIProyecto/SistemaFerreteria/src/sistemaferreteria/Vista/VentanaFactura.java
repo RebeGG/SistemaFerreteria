@@ -411,7 +411,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         barraEstado.setLayout(new java.awt.GridBagLayout());
 
         lblEtiqueta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
-        lblEtiqueta.setText("Promedio Consulta");
+        lblEtiqueta.setText("Promedio Consulta ");
         barraEstado.add(lblEtiqueta, new java.awt.GridBagConstraints());
 
         lblConsulta.setFont(new java.awt.Font("Lucida Sans Unicode", 0, 14)); // NOI18N
@@ -524,11 +524,14 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         estado.cambiarModoBuscar();
         actualizar();
         campoCodigo.requestFocusInWindow();
+        btnBuscar.setEnabled(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         estado.cambiarModoBuscar();
+        btnBuscar.setEnabled(false);
         actualizar();
+        btnBuscar.setEnabled(false);
         campoCodigo.requestFocusInWindow();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -554,6 +557,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         }
         estado.cambiarModoConsulta();
         actualizar();
+        btnBuscar.setEnabled(false);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -567,6 +571,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
         }
         estado.cambiarModoConsulta();
         actualizar();
+        btnBuscar.setEnabled(false);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -607,6 +612,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
        // estado.enModoActualizacion();
         estado.cambiarModoConsulta();
         actualizar();
+        btnBuscar.setEnabled(false);
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     public static void main(String args[]) {

@@ -781,6 +781,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
             System.out.println("bye:C");
             throw new UnsupportedOperationException();
         }
+        estado.setRegistroActual(null);
         estado.cambiarModoConsulta();
         btnProducto.clearSelection();
         actualizar();

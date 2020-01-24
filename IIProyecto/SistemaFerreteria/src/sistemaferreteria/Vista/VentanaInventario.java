@@ -714,6 +714,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 }
             }
         }
+        estado.setRegistroActual(null);
         estado.cambiarModoConsulta();
         btnProducto.clearSelection();
         actualizar();

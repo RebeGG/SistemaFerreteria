@@ -23,6 +23,7 @@ public class VentanaDetalles extends javax.swing.JFrame implements Observer{
     
     private void configurar(){
         initComponents();
+        areaDetalle.setEnabled(false);
     }
     
     public void init(){

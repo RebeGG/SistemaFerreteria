@@ -106,8 +106,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
             spinnerCant.setValue(actual.getCantidadUnidades());
             spinnerPeso.setEnabled(false);
             fieldPrecio.setText(Double.toString(actual.getPrecio()));
-        }
-        else if (btnMateriales.isSelected() && (estado.getRegistroActual() != null)) {
+        } else if (btnMateriales.isSelected() && (estado.getRegistroActual() != null)) {
             Material actual = (Material) estado.getRegistroActual();
             fldcodigo.setText(actual.getCodigo());
             fldname.setText(actual.getNombre());
@@ -228,7 +227,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         }
         return r;
     }
-  
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -663,10 +662,10 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 }
             }
 
-        } else if (estado.enModoActualizacion()){
-            if (btnHerramientas.isSelected()){
+        } else if (estado.enModoActualizacion()) {
+            if (btnHerramientas.isSelected()) {
                 Herramienta h = (Herramienta) estado.getRegistroActual();
-                if (h != null){
+                if (h != null) {
                     h = actualizarRegistroHerramienta(h);
                 }
                 estado.setRegistroActual(h);
@@ -675,9 +674,9 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else if(btnMateriales.isSelected()){
+            } else if (btnMateriales.isSelected()) {
                 Material h = (Material) estado.getRegistroActual();
-                if (h != null){
+                if (h != null) {
                     h = actualizarRegistroMaterial(h);
                 }
                 estado.setRegistroActual(h);
@@ -687,9 +686,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                     Logger.getLogger(VentanaInventario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } 
-        
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Ya existe este producto", "", JOptionPane.OK_OPTION);
         }
         estado.cambiarModoConsulta();
@@ -772,6 +769,13 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         lblPromedioConsulta.setText(String.format("%d", modelo.getPromedioConsultar()));
         lblPromedioAgregar.setText(String.format("%d", modelo.getPromedioAgregar()));
         lblPromedioModificar.setText(String.format("%d", modelo.getPromedioActualizar()));
+        if (arg.getClass().equals(Herramienta.class)) {
+            estado.setRegistroActual((Herramienta)arg);
+            actualizarRegistroHerramienta((Herramienta) arg);
+        } else if (arg.getClass().equals(Material.class)) {
+            estado.setRegistroActual((Material)arg);
+            actualizarRegistroMaterial((Material) arg);
+        }
     }
 
     /**

@@ -61,11 +61,11 @@ public class Detalle {
         if(producto != null){
             if(producto.getClass().equals(Herramienta.class)){
             Herramienta h = (Herramienta) producto;
-            return (double)h.getPrecio() * h.getCantidadUnidades(); // check
+            return h.getPrecio() * h.getCantidadUnidades();
             }
             else{
                 Material m = (Material) producto;
-                return (double)m.getPrecio() * m.getPesoKg();//check
+                return m.getPrecio() * m.getPesoKg();
             }
         }
         else{

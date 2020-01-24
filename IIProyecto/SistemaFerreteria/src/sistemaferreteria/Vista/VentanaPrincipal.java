@@ -1,12 +1,11 @@
 package sistemaferreteria.Vista;
 
-//  Universidad Nacional
-
 import java.util.Observable;
 import java.util.Observer;
 import sistemaferreteria.Controlador.Controlador;
 import sistemaferreteria.Modelo.Modelo;
 
+//  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
 //  

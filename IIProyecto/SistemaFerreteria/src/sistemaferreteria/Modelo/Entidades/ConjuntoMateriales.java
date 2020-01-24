@@ -1,18 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemaferreteria.Modelo.Entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ESCINF
- */
+//  Universidad Nacional
+//  Facultad de Ciencias Exactas y Naturales
+//  Escuela de Informática
+//  
+//     II Proyecto
+// (ConjuntoMateriales)
+//
+//  Autores: Rebecca Garita Gutiérrez
+//           María Fernanda González Arias
+//
+//  III Ciclo 2019
+
 public class ConjuntoMateriales  extends java.util.Observable implements Serializable{
      private List<Material> inventario;
     
@@ -53,12 +56,6 @@ public class ConjuntoMateriales  extends java.util.Observable implements Seriali
         setChanged();
         notifyObservers();
     }
-    
-    public void eliminar(Material p){
-        inventario.remove(p);
-        setChanged();
-        notifyObservers();
-    }
 
     @Override
     public String toString() {
@@ -72,9 +69,5 @@ public class ConjuntoMateriales  extends java.util.Observable implements Seriali
 
     public ConjuntoMateriales obtenerModelo() {
         return this;
-    }
-    
-    public List<Material> listar() {
-        throw new UnsupportedOperationException();
     }
 }

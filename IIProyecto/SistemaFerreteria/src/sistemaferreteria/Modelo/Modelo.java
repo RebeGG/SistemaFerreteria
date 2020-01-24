@@ -48,7 +48,7 @@ public class Modelo extends Observable implements Runnable {
     private FacturaDAO fd;
 
     public Modelo() {
-        GestorBD bd = GestorBD.obtenerInstancia();//realmente noo sé donde ponerlo o si va en el main más bien...
+        GestorBD bd = GestorBD.obtenerInstancia();
         this.activo = false;
         this.banderaMinuto = 0;
         this.factura = new Factura();
@@ -161,7 +161,6 @@ public class Modelo extends Observable implements Runnable {
     @Override
     public void run() {
         while (hiloControl == Thread.currentThread()) {
-            //provisional, por que hay que mostrar el promedio 2 veces por min...
             setBanderaMinuto(getBanderaMinuto() + 1);
             if(getBanderaMinuto() < 2){
                 actualizar();
@@ -209,7 +208,6 @@ public class Modelo extends Observable implements Runnable {
     //busca según nombre de la Herramienta
     public void listarHerramientas(String nombre) throws Exception{
         hd = HerramientaDAO.obtenerInstancia();
-        List<Producto> inventarioAux = new ArrayList();
         setInventarioH(hd.listarPorNombre(nombre));
     }
     

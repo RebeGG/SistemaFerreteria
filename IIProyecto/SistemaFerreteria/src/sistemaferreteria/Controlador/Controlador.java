@@ -60,46 +60,34 @@ public class Controlador {
     
     
     //Métodos Administración de Inventario
-//    //lista todo el inventario
-//    public void listarInventario() throws Exception{
-//        pd = ProductoDAO.obtenerInstancia();
-//        datos.setInventario(pd.listar());
-//        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
-//    }
     
     //busca según tipo de producto(Material/Herramienta)
     public void listarProductos(Producto p) throws Exception{
         datos.listarProductos(p);
-        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
      
     //busca según nombre de la Herramienta
     public void listarHerramientas(String nombre) throws Exception{
         datos.listarHerramientas(nombre);
-        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca según nombre del Material
     public void listarMateriales(String nombre) throws Exception{
         datos.listarMateriales(nombre);
-        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
     }
     
     //busca un Producto específico
     public Producto obtenerProducto(Producto p) throws Exception{
-        datos.setPromedioConsultar(datos.getPromedioConsultar() + 1);
         return datos.obtenerProducto(p);
     }
     
     //agregar un producto
     public boolean agregarProducto(Producto p) throws Exception{
-        datos.setPromedioAgregar(datos.getPromedioAgregar() + 1);
         return datos.agregarProducto(p);
     }
     
     //actualizar un producto
     public boolean actualizarProducto(Producto p) throws Exception{
-        datos.setPromedioActualizar(datos.getPromedioActualizar() + 1);
         return datos.actualizarProducto(p);
     }
     

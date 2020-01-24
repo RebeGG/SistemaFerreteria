@@ -44,7 +44,6 @@ public class VentanaTablaMateriales extends JFrame implements Observer{
         pack();
         setMinimumSize(getSize());
         setSize(getWidth()*9 / 6, getHeight());
-        //setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 

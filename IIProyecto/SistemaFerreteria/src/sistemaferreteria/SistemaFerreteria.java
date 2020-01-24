@@ -1,13 +1,10 @@
 package sistemaferreteria;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import sistemaferreteria.Controlador.Controlador;
-import sistemaferreteria.Vista.VentanaInventario;
 import sistemaferreteria.Vista.VentanaPrincipal;
 
 //  Universidad Nacional

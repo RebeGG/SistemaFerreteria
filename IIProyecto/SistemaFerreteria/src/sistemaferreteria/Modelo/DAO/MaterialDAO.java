@@ -68,15 +68,9 @@ public class MaterialDAO {
             stm.setString(4, nuevoMaterial.getTamano());
             stm.setDouble(5, nuevoMaterial.getPesoKg());
             stm.setDouble(6, nuevoMaterial.getPrecio());
-
-            // Inicia una nueva transacción..
-            // cnx.setAutoCommit(false);
             
             exito = stm.executeUpdate() == 1;
-            
-            // Aplica (o cancela) la transacción abierta..
-            // cnx.commit();
-            // cnx.rollback();
+
         }
 
         return exito;

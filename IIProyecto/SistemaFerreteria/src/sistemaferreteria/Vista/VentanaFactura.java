@@ -90,7 +90,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
     }
 
     public void actualizarBotones() {
-        btnNuevo.setEnabled(estado.puedeAgregar() && !estado.enModoConsulta());
+        btnNuevo.setEnabled(estado.puedeAgregar());
         btnAgregar.setEnabled(estado.puedeGuardar() || estado.enModoConsulta() && !estado.puedeBuscar());
         btnBuscar.setEnabled(estado.puedeBuscar());
         btnCancelar.setEnabled(estado.puedeCancelar());
@@ -101,14 +101,22 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
     }
 
     public void actualizarCampos() {
-        if (btnHerramientas.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
+        if(estado.getRegistroActual() == null){
+            campoCodigo.setText(null);
+            campoNombre.setText(null);
+            campoPrecio.setText(null);
+            spinnerCant.setValue(0);
+            spinnerPeso.setValue(0.5);
+            campoTotal.setText("0");
+        }
+        else if (btnHerramientas.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
             Herramienta actual = (Herramienta) estado.getRegistroActual();
             campoCodigo.setText(actual.getCodigo());
             campoNombre.setText(actual.getNombre());
             campoPrecio.setText(Double.toString(actual.getPrecio()));
             spinnerCant.setValue((int)spinnerCant.getValue());
             spinnerPeso.setEnabled(false);
-            //campoTotal.setText(String.format("%f", modelo.getFactura().getTotal()));
+            campoTotal.setText(String.format("%f", actual.getPrecio()*(int)spinnerCant.getValue()));
         }
         else if (btnMateriales.isSelected() && (!estado.enModoAgregar()) && (estado.getRegistroActual() != null)) {
             Material actual = (Material) estado.getRegistroActual();
@@ -117,13 +125,13 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
             campoPrecio.setText(Double.toString(actual.getPrecio()));
             spinnerCant.setEnabled(false);
             spinnerPeso.setValue((double) spinnerPeso.getValue());
-//            campoTotal.setText(String.format("%f", actual.getPrecio()*(double)spinnerPeso.getValue()));
+            campoTotal.setText(String.format("%f", actual.getPrecio()*(double)spinnerPeso.getValue()));
 
         } else {
             campoCodigo.setText(null);
             campoNombre.setText(null);
             campoPrecio.setText(null);
-            spinnerCant.setValue(0);
+            spinnerCant.setValue(1);
             spinnerPeso.setValue(0.5);
             campoTotal.setText("0");
         }
@@ -539,6 +547,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.agregarProductoFactura(p);
+                    estado.setRegistroActual(null);
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaFactura.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -547,6 +556,7 @@ public class VentanaFactura extends javax.swing.JFrame implements Observer {
                 estado.setRegistroActual(p);
                 try {
                     gestorPrincipal.agregarProductoFactura(p);
+                    estado.setRegistroActual(null);
                 } catch (Exception ex) {
                     Logger.getLogger(VentanaFactura.class.getName()).log(Level.SEVERE, null, ex);
                 }

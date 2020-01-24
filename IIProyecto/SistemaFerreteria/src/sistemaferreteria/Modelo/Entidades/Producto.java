@@ -1,9 +1,8 @@
 package sistemaferreteria.Modelo.Entidades;
 
-//  Universidad Nacional
-
 import java.io.Serializable;
 
+//  Universidad Nacional
 //  Facultad de Ciencias Exactas y Naturales
 //  Escuela de Informática
 //  

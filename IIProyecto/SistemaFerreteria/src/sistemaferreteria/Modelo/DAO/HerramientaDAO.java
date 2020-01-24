@@ -69,15 +69,9 @@ public class HerramientaDAO {
             stm.setInt(4, nuevaHerramienta.getCapacidad());
             stm.setInt(5, nuevaHerramienta.getCantidadUnidades());
             stm.setDouble(6, nuevaHerramienta.getPrecio());
-
-            // Inicia una nueva transacción..
-            // cnx.setAutoCommit(false);
             
             exito = stm.executeUpdate() == 1;
             
-            // Aplica (o cancela) la transacción abierta..
-            // cnx.commit();
-            // cnx.rollback();
         }
 
         return exito;

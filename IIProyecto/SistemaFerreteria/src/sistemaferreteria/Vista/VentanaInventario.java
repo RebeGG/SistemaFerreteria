@@ -101,7 +101,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
             fldcodigo.setText(actual.getCodigo());
             fldname.setText(actual.getNombre());
             fldTamano.setEnabled(false);
-            comboCapacidad.setSelectedIndex(actual.getCapacidad());
+            comboCapacidad.setSelectedIndex(actual.getCapacidad()-1);
             fldmedida.setText(actual.getMedida());
             spinnerCant.setValue(actual.getCantidadUnidades());
             spinnerPeso.setEnabled(false);
@@ -134,7 +134,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         spinnerCant.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnHerramientas.isSelected());
         spinnerPeso.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
         fldTamano.setEnabled(!estado.enModoConsulta() && !estado.enModoBusqueda() && btnMateriales.isSelected());
-        fieldPrecio.setEnabled(estado.enModoAgregar() && !estado.enModoBusqueda());
+        fieldPrecio.setEnabled(estado.enModoAgregar() && !estado.enModoBusqueda() || estado.puedeModificar());
     }
 
     private Producto capturarRegistro() {
@@ -144,7 +144,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                     fldname.getText(),
                     fldmedida.getText(),
                     Double.parseDouble(fieldPrecio.getText()),
-                    comboCapacidad.getSelectedIndex(),
+                    comboCapacidad.getSelectedIndex() + 1,
                     (int) spinnerCant.getValue());
         }
         return new Material(
@@ -170,7 +170,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
                 fldname.getText(),
                 fldmedida.getText(),
                 precio,
-                comboCapacidad.getSelectedIndex(),
+                comboCapacidad.getSelectedIndex() + 1,
                 (int) spinnerCant.getValue()
         );
         return r;
@@ -617,6 +617,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        estado.setRegistroActual(null);
         estado.cambiarModoBuscar();
         actualizar();
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -740,7 +741,7 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         }
         estado.setRegistroActual(null);
         estado.cambiarModoConsulta();
-        btnProducto.clearSelection();
+       // btnProducto.clearSelection();
         actualizar();
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
@@ -769,12 +770,27 @@ public class VentanaInventario extends javax.swing.JFrame implements Observer {
         lblPromedioConsulta.setText(String.format("%d", modelo.getPromedioConsultar()));
         lblPromedioAgregar.setText(String.format("%d", modelo.getPromedioAgregar()));
         lblPromedioModificar.setText(String.format("%d", modelo.getPromedioActualizar()));
-        if (arg.getClass().equals(Herramienta.class)) {
-            estado.setRegistroActual((Herramienta)arg);
-            actualizarRegistroHerramienta((Herramienta) arg);
-        } else if (arg.getClass().equals(Material.class)) {
-            estado.setRegistroActual((Material)arg);
-            actualizarRegistroMaterial((Material) arg);
+        if (modelo.getProducto()!=null){
+            if (modelo.getProducto().getClass().equals(Herramienta.class)){
+                Herramienta r = (Herramienta) modelo.getProducto();
+                estado.setRegistroActual(r);
+                fldcodigo.setText(r.getCodigo());
+                fldname.setText(r.getNombre());
+                fldmedida.setText(r.getMedida());
+                comboCapacidad.setSelectedIndex((r.getCapacidad()-1));
+                spinnerCant.setValue((int) r.getCantidadUnidades());
+                fieldPrecio.setText(Double.toString(r.getPrecio()));
+                
+            } else if (modelo.getProducto().getClass().equals(Material.class)){
+                Material r = (Material) modelo.getProducto();
+                estado.setRegistroActual(r);
+                fldcodigo.setText(r.getCodigo());
+                fldname.setText(r.getNombre());
+                fldmedida.setText(r.getMedida());
+                fldTamano.setText(r.getTamano());
+                spinnerPeso.setValue((double)r.getPesoKg());
+                fieldPrecio.setText(Double.toString(r.getPrecio()));
+            }
         }
     }
 
